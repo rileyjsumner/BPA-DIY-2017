@@ -2,15 +2,18 @@
 
 class User {
     
+    static $material = 0;
+    static $step = 0;
+    
     public function login($conn, $username, $password) {
-        $sql = "SELECT * FROM `users` WHERE `name`='$username';";
+        $sql = "SELECT * FROM `users` WHERE `username`='$username';";
         $result = mysqli_query($conn, $sql);
         if(mysqli_num_rows($result) > 0) {
             while($row = mysqli_fetch_assoc($result)) {
                 $salt = $row["salt"];
                 $pass = $row["password"];
                 if($pass === Hash::check($password, $salt)) {
-                    $sql2 = "UPDATE `users` SET `login`='true' WHERE `name`='$username';";
+                    $sql2 = "UPDATE `users` SET `login`='true' WHERE `username`='$username';";
                     mysqli_query($conn, $sql2);
                     return true;
                 } else {
