@@ -11,7 +11,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Home</title>
-        <script type="text/javascript" src="//code.jquery.com/jquery-latest.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     </head>
     <body>
         <nav class="nav">
@@ -23,9 +23,7 @@
         </nav>
         <div id="main">
             <div class="col-1">
-                <div class="my-form">
-                    
-                    <form role="form" method="post">
+                    <form class="my-form" role="form" method="post">
                         <table>
                             <tr>
                                 <td>
@@ -41,17 +39,31 @@
                             </tr>
                         </table>
                         <table class="materialstab" style="border:1px solid;" cellpadding="5">
-                            <script type="text/javascript">
-                            jQuery(document).ready(function($){
-                                $('.my-form .add-box').click(function(){
-                                    var n = $('.text-box').length + 1;
-
-                                    var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /></p></td><td><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /><a href="#" class="remove-box">Remove</a></p></td></tr>');
-                                    box_html.hide();
-                                    $('.my-form .materialstab p.text-box:last').after(box_html);
-                                    box_html.fadeIn('slow');
-                                    return false;
+                            <tr>
+                              <td>
+                                <p class="text-box">
+                                  <label for="materials">Materials</label>
+                                </p>
+                              </td>
+                              <td>
+                                <p class="text-box">
+                                  <label for="url">URL</label>
+                                  <a class="add-box" href="#">Add Material</a>
+                                </p>
+                              </td>
+                            </tr>
+                      </table>
+                        <script type="text/javascript">
+                            jQuery(document).ready(function() {
+                                $('.my-form .add-box').click(function() {
+                                  var n = $('.text-box').length + 1;
+                                  var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /></p></td><td><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /><a href="#" class="remove-box">Remove</a></p></td></tr>');
+                                  box_html.hide();
+                                  $('.my-form .materialstab tr:last').after(box_html);
+                                  box_html.fadeIn('slow');
+                                  return false;
                                 });
+                              });
                                 $('.my-form').on('click', '.remove-box', function(){
                                     $(this).parent().css( 'background-color', '#FF6C6C' );
                                     $(this).parent().fadeOut("slow", function() {
@@ -71,22 +83,6 @@
 
                            });
                             </script>
-                            <tr>
-                                <td>
-                                    <p class="text-box">
-                                        <label for="materials">Materials</label>
-                                    </p>
-                                </td>
-                                <td>
-                                    <p class="text-box">
-                                        <label for="url">URL</label>
-                                        <a class="add-box" href="#">Add Material</a>
-                                    </p>
-                                </td>
-                            </tr>
-                            
-                        </table>
-                        
                         
                         <p class="text-box">
                             <label for="steps">Steps</label>
@@ -217,7 +213,5 @@
                     ?>
                 </div>
             </div>
-        </div>
-        
     </body>
 </html>
