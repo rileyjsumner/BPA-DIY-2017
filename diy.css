@@ -4,32 +4,7 @@ nav {
             margin: 0;
             padding: 0;
             list-style: none;
+            float: right;
+            margin-top: 50px;
         }
-        nav li {
-            display: block;
-            position: relative;
-            float: left;
-        }
-        li nav { display: none; }
-        nav li a {
-            display: block;
-            text-decoration: none;
-            color: #ffffff;
-            border-top: 1px solid #ffffff;
-            padding: 5px 15px 5px 15px;
-            background: #2C5463;
-            margin-left: 1px;
-            white-space: nowrap;
-        }
-
-        nav li a:hover { background: #617F8A; }
-        li:hover nav { 
-            display: block; 
-            position: absolute;
-        }
-        li:hover li { 
-            float: none;
-            font-size: 11px;
-        }
-        li:hover a { background: #617F8A; }
-        li:hover li a:hover { background: #95A9B1; }
+        
