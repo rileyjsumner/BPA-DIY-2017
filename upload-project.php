@@ -40,7 +40,7 @@
                                 </td>
                             </tr>
                         </table>
-                        <table>
+                        <table style="border:1px solid">
                             <tr>
                                 <td>
                                     <p class="text-box">
