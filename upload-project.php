@@ -23,7 +23,7 @@
         </nav>
         <div id="main">
             <div class="col-1">
-                    <form class="my-form" role="form" method="post">
+                    <form>
                         <table>
                             <tr>
                                 <td>
@@ -38,32 +38,35 @@
                                 </td>
                             </tr>
                         </table>
-                        <table class="materialstab" style="border:1px solid;" cellpadding="5">
-                            <tr>
-                              <td>
-                                <p class="text-box">
-                                  <label for="materials">Materials</label>
-                                </p>
-                              </td>
-                              <td>
-                                <p class="text-box">
-                                  <label for="url">URL</label>
-                                  <a class="add-box" href="#">Add Material</a>
-                                </p>
-                              </td>
-                            </tr>
+                    </form>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                    <form class="my-form" role="form" method="post">
+                      <table class="materialstab" style="border:1px solid;" cellpadding="5">
+                        <tr>
+                          <td>
+                            <p class="text-box">
+                              <label for="materials">Materials</label>
+                            </p>
+                          </td>
+                          <td>
+                            <p class="text-box">
+                              <label for="url">URL</label>
+                              <a class="add-box" href="#">Add Material</a>
+                            </p>
+                          </td>
+                        </tr>
                       </table>
                         <script type="text/javascript">
                             jQuery(document).ready(function() {
                                 $('.my-form .add-box').click(function() {
                                   var n = $('.text-box').length + 1;
+
                                   var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /></p></td><td><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /><a href="#" class="remove-box">Remove</a></p></td></tr>');
                                   box_html.hide();
                                   $('.my-form .materialstab tr:last').after(box_html);
                                   box_html.fadeIn('slow');
                                   return false;
                                 });
-                              });
                                 $('.my-form').on('click', '.remove-box', function(){
                                     $(this).parent().css( 'background-color', '#FF6C6C' );
                                     $(this).parent().fadeOut("slow", function() {
@@ -82,14 +85,15 @@
                                 $('.my-form p.text-box:last').after(box_2);
 
                            });
-                            </script>
-                        
+                        </script>
+                    </form>
+                    <form>
                         <p class="text-box">
                             <label for="steps">Steps</label>
                             <input type="text" name="steps" value="" />
                             <a class="add-box2" href="#">Add More</a>
                         </p>
-                        <script type="text/javascript">
+                        <!--<script type="text/javascript">
                         jQuery(document).ready(function($){
                             $('.my-form .add-box2').click(function(){
                                 var n = $('.text-box').length + 1;
@@ -119,7 +123,9 @@
                             $('.my-form p.text-box:last').after(box_2);
 
                        });
-                        </script>
+                        </script>-->
+                    </form>
+                    <form>  
                         <label for="facebook">Facebook</label><input type="text" name="facebook" value=""><br>
                         <label for="twitter">Twitter</label><input type="text" name="twitter" value=""><br>
                         <label for="instagram">Instagram</label><input type="text" name="instagram" value=""><br>
@@ -128,6 +134,7 @@
                         <label for="google">Google+</label><input type="text" name="google" value=""><br>
                         <p><input type="submit" value="Submit" name="save" /></p>
                     </form>
+                    
                     <form action="" method="post" enctype="multipart/form-data">
                         Select image to upload:
                         <input type="file" name="fileToUpload" id="fileToUpload">
