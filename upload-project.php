@@ -40,24 +40,15 @@
                                 </td>
                             </tr>
                         </table>
-                        <table style="border:1px solid">
-                            <tr>
-                                <td>
-                                    <p class="text-box">
-                                        <label for="materials">Materials</label>
-                                        <input type="text" name="materials" value="" />
-                                        <a class="add-box" href="#">Add More</a>
-                                    </p>
-                                </td>
-                            </tr>
+                        <table class="materialstab" style="border:1px solid;" cellpadding="5">
                             <script type="text/javascript">
                             jQuery(document).ready(function($){
                                 $('.my-form .add-box').click(function(){
                                     var n = $('.text-box').length + 1;
 
-                                    var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /></p><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /> <a href="#" class="remove-box">Remove</a></p></td></tr>');
+                                    var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /></p></td><td><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /><a href="#" class="remove-box">Remove</a></p></td></tr>');
                                     box_html.hide();
-                                    $('.my-form p.text-box:last').after(box_html);
+                                    $('.my-form .materialstab p.text-box:last').after(box_html);
                                     box_html.fadeIn('slow');
                                     return false;
                                 });
@@ -80,6 +71,20 @@
 
                            });
                             </script>
+                            <tr>
+                                <td>
+                                    <p class="text-box">
+                                        <label for="materials">Materials</label>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="text-box">
+                                        <label for="url">URL</label>
+                                        <a class="add-box" href="#">Add Material</a>
+                                    </p>
+                                </td>
+                            </tr>
+                            
                         </table>
                         
                         
