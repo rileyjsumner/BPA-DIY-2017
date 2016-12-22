@@ -16,7 +16,7 @@
     <body>
          
         <nav class="nav">
-             <ul id="menu">
+             
             <li><a href="">Home</a></li> 
             <li><a href="">About</a> 
               <ul>
@@ -41,7 +41,7 @@
                 <li><a href="">Somewhere Else</a></li> 
               </ul> 
             </li> 
-        </ul>   
+        </nav>
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="upload-project.php">Upload Project</a></li>

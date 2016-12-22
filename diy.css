@@ -1,17 +1,17 @@
-ul {
+nav {
             font-family: Arial, Verdana;
             font-size: 14px;
             margin: 0;
             padding: 0;
             list-style: none;
         }
-        ul li {
+        nav li {
             display: block;
             position: relative;
             float: left;
         }
-        li ul { display: none; }
-        ul li a {
+        li nav { display: none; }
+        nav li a {
             display: block;
             text-decoration: none;
             color: #ffffff;
@@ -22,8 +22,8 @@ ul {
             white-space: nowrap;
         }
 
-        ul li a:hover { background: #617F8A; }
-        li:hover ul { 
+        nav li a:hover { background: #617F8A; }
+        li:hover nav { 
             display: block; 
             position: absolute;
         }
