@@ -23,5 +23,21 @@
         <?php
             
         ?>
+     
+ <form action="">
+  Project name :<br>
+  <input type="text" name="project name" value=" ">
+  <br>
+  Materials:<br>
+  <input type="text" name="Materials" value="">
+  <br>
+ cost :<br>
+  <input type="text" name="cost
+  " value=" "><br>
+ <input type="submit" value="Submit">
+</form> 
+  
+</form>
     </body>
+    
 </html>
