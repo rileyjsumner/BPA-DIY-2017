@@ -24,18 +24,15 @@
             
         ?>
      
- <form action="">
+ <form action="action_page.php">
   Project name :<br>
   <input type="text" name="project name" value=" ">
   <br>
-  Materials:<br>
-  <input type="text" name="Materials" value="">
+  Description 
+  <textarea name="Description" value=" "></textarea>
   <br>
- cost :<br>
-  <input type="text" name="cost
-  " value=" "><br>
  <input type="submit" value="Submit">
-</form> 
+</form>  
   
 </form>
     </body>
