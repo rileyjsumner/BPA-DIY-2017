@@ -23,6 +23,7 @@
                 <li><a href="upload-project.php">Upload Project</a></li>
                 <li><a href="submit-idea.php">Submit an Idea</a></li>
                 <li class="active"><a href="login-register.php">Login/Register</a></li>
+                <li><a href="profile.php">Profile</a></li>
             </ul>   
         </nav>
         <div class="row">

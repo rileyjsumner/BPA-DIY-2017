@@ -10,6 +10,7 @@ session_start();
 ?>
 <html>
     <head>
+        <link rel="stylesheet" href="diy.css" type="text/css">
         <meta charset="UTF-8">
         <title>Home</title>
     </head>
@@ -19,7 +20,8 @@ session_start();
                 <li><a href="index.php">Home</a></li>
                 <li><a href="upload-project.php">Upload Project</a></li>
                 <li><a href="submit-idea.php">Submit an Idea</a></li>
-            </ul>
+                <li><a href="login-register.php">Login/Register</a></li>
+                <li class="active"><a href="profile.php">Profile</a></li>
         </nav>
         <?php
             if(Token::check(Verify::get('token'))) { 
