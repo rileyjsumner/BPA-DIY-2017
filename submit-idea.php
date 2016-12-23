@@ -41,7 +41,7 @@ session_start();
             
         ?>
      
- <form action="" method="post">
+ <form class="smart-green" action="" method="post">
   Project name :<br>
   <input type="text" name="projectname" value=" ">
   <br>
