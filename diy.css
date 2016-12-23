@@ -35,3 +35,7 @@ nav {
             float: right;
             width: 65%
         }
+        .active{
+            background-color: #4CAF50;
+            color: white;
+        }

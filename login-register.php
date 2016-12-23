@@ -9,10 +9,22 @@
 ?>
 <html>
     <head>
+        <link rel="stylesheet" href="diy.css" type="text/css">
         <meta charset="UTF-8">
         <title></title>
     </head>
     <body>
+        <div class="header">
+        <img src="Pictures/DIY header.jpg" alt=""/>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li class="active"><a href="index.php">Home</a></li>
+                <li><a href="upload-project.php">Upload Project</a></li>
+                <li><a href="submit-idea.php">Submit an Idea</a></li>
+                <li><a href="login-register.php">Login/Register</a></li>
+            </ul>   
+        </nav>
         <form action="" method="POST">
             <p>Username</p>
             <input type="text" name="user" value="">
