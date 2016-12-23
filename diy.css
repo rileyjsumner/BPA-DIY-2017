@@ -30,14 +30,11 @@
         li a:hover {
             background-color: #246024;
             color: white;
-<<<<<<< HEAD
             width: 250px;
             padding-right: 0px;
             padding-left: 0px;
             padding-top: 10px;
             padding-bottom: 10px;
-=======
->>>>>>> origin/master
         }
         header{
             float: right;
@@ -130,3 +127,4 @@
 }
 .smart-green .button:hover {
     background-color:#80A24A;
+}
