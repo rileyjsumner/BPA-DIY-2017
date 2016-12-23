@@ -72,7 +72,6 @@
                 if($user->login($conn, $username, $password)) {
                     $_SESSION["id"] = $user->getID($conn, $username);
                     $_SESSION["name"] = $username;
-                    echo $_SESSION["id"], ' ', $_SESSION["name"], '<br>';
                 } else {
                     echo "login failed";
                 }

@@ -9,13 +9,7 @@ session_start();
     $user = new User();
     if(Token::check(Verify::get('token'))) {
         $userID = $_SESSION["id"];
-        $sql = "SELECT `username` FROM `users` WHERE `userID`=$userID;";
-        $result = mysqli_query($conn, $sql);
-        if(mysqli_num_rows($result) > 0) {
-            while($row = mysqli_fetch_assoc($result)) {
-                $userName = $row['username'];
-            }
-        }
+        $userName = $_SESSION["name"];
         
     }
 ?>
@@ -41,20 +35,18 @@ session_start();
             
         ?>
      
- <form class="smart-green" action="" method="post">
-  Project name :<br>
-  <input type="text" name="projectname" value=" ">
-  <br>
-  Description 
-  <textarea name="Description" value=" "></textarea>
-  <br>
- <input name="submit" type="submit" value="Submit">
-</form>  
+        <form class="smart-green" action="" method="post">
+            <p>Project Name</p><br>
+                <input type="text" name="projectname" value=""><br>
+            <p>Description</p> 
+                <textarea name="description" value=" "></textarea><br>
+                <input name="submit" type="submit" value="Submit">
+        </form>  
  
    <?php
    if(Input::get("submit")) {
        $name = Input::get("projectname");
-       $description = Input::get("Description");
+       $description = Input::get("description");
 
        $sql="INSERT INTO `ideas` (`user`, `name`, `description`) VALUES ('$userName','$name','$description');";
        $result=  mysqli_query($conn, $sql);
