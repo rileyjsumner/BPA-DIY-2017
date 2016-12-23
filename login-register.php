@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     require_once 'init.php';
     $conn = mysqli_connect("localhost", "rileyODS", "riley4ODS!", "bpa2017");
     if (!$conn) {
@@ -17,6 +18,7 @@
             <input type="text" name="user" value="">
             <p>Password</p>
             <input type="password" name="pass" value="">
+            <input type="hidden" value="<?php Token::generate(); ?>">
             <input type="submit" name="login" value="login">
         </form>
         <form action="" method="POST">
@@ -26,6 +28,7 @@
             <input type="password" name="password" value="">
             <p>Verify</p>
             <input type="password" name="verify" value="">
+            <input type="hidden" value="<?php Token::generate(); ?>">
             <input type="submit" name="register" value="Register">
         </form>
         <?php
@@ -58,7 +61,6 @@
                     $_SESSION["id"] = $user->getID($conn, $username);
                     $_SESSION["name"] = $username;
                     echo $_SESSION["id"], ' ', $_SESSION["name"], '<br>';
-                    header(" Location: index.php ");
                 } else {
                     echo "login failed";
                 }

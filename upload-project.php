@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <?php 
-    require_once 'init.php';
     session_start();
+    require_once 'init.php';
+    
+    if(!session_start()) {
+        die("Session start fail");
+    }
     $conn = mysqli_connect("localhost", "rileyODS", "riley4ODS!", "bpa2017");
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
     $user = new User();
+    
+    if(Token::check(Verify::get('token'))) {
+        $userID = $_SESSION["id"];
+        $sql = "SELECT `username` FROM `users` WHERE `userID`=$userID;";
+        $result = mysqli_query($conn, $sql);
+        if(mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $userName = $row['username'];
+            }
+        }
+        
+    }
 ?>
 <html>
     <head>
@@ -47,10 +63,9 @@
                 $title = Input::get("title");
                 $description = Input::get('description');
                 
-                $_SESSION["title"] = $title;
-                $_SESSION["description"] = $description;
+                $sql1 = "INSERT INTO `posts` (`title`, `description`, `user`) VALUES ('$title', '$description', '$userName');";
+                $result = mysqli_query($conn, $sql1);
                 
-                echo $_SESSION["title"], $_SESSION["description"];
                 ?>
                 <form class="my-form" role="form" method="POST" action="?action=steps">
                     <table class="materialstab" style="border:1px solid;" cellpadding="5">
@@ -74,7 +89,7 @@
                             $('.my-form .add-box').click(function() { //add box
                               var n = $('.text-box').length + 1;
 
-                              var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /></p></td><td><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /><a href="#" class="remove-box">Remove</a></p></td></tr>');
+                              var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /><a href="#" class="remove-box">Remove</a></p></td><td><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /><a href="#" class="remove-box">Remove</a></p></td></tr>');
                               box_html.hide();
                               $('.my-form .materialstab tr:last').after(box_html);
                               box_html.fadeIn('slow');
@@ -101,8 +116,7 @@
                     </script>
                 </form>
             <?php } else if($_GET['action'] == "steps") { 
-                $elems = Input::get("elem1");
-                $_SESSION['materials'] = "";
+                $elem1 = Input::get("elem1");
                 ?>
                 <form class="my-form2" role="form" action="?action=socialmedia" method="POST">
                     <table class="materialstab" style="border:1px solid">
@@ -110,7 +124,6 @@
                             <td>
                                 <p class="text-box">
                                     <label for="steps">Steps</label>
-                                    <input type="text" name="steps" value="" />
                                     <a class="add-box" href="#">Add More</a>
                                 </p>
                             </td>
@@ -124,7 +137,7 @@
 
                             var box_html = $('<tr><td><p class="text-box"><input type="text" name="steps" value="" id="steps' + n + '" /> <a href="#" class="remove-box">Remove</a></p></td></tr>');
                             box_html.hide();
-                            $('.my-form .materialstab tr:last').after(box_html);
+                            $('.my-form2 .materialstab tr:last').after(box_html);
                             box_html.fadeIn('slow');
                             return false;
                         });
@@ -169,12 +182,7 @@
                 $snapchat = Input::get("snapchat");
                 $google = Input::get("google");
                 
-                $_SESSION["facebook"] = $facebook;
-                $_SESSION["twitter"] = $twitter;
-                $_SESSION["instagram"] = $instagram;
-                $_SESSION["pinterest"] = $pinterest;
-                $_SESSION["snapchat"] = $napchat;
-                $_SESSION["google"] = $google;
+                
                 ?>
                 <form action="preview.php" method="post" enctype="multipart/form-data">
                     Select image to upload:
@@ -235,8 +243,8 @@
 
                 }
             }
-            
             ?>
+            
         </div>
     </body>
 </html>

@@ -4,7 +4,23 @@ class User {
     
     static $material = 0;
     static $step = 0;
+    static $id = null;
     
+    public function getID($conn, $username) {
+        $sql = "SELECT `userID` FROM `users` WHERE `username`='$username';";
+        $result = mysqli_query($conn, $sql);
+        
+        if(mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                return $row["userID"];
+            }
+        } else {
+            return false;
+        }
+    }
+    public function checkLogin($token, $username) {
+        
+    }
     public function login($conn, $username, $password) {
         $sql = "SELECT * FROM `users` WHERE `username`='$username';";
         $result = mysqli_query($conn, $sql);
@@ -12,13 +28,13 @@ class User {
             while($row = mysqli_fetch_assoc($result)) {
                 $salt = $row["salt"];
                 $pass = $row["password"];
-                if($pass === Hash::check($password, $salt)) {
+                $len = strlen($pass);
+                $check = Hash::check($password, $salt);
+                if(substr($check, 0, $len-1) == $pass) {
                     $sql2 = "UPDATE `users` SET `login`='true' WHERE `username`='$username';";
                     mysqli_query($conn, $sql2);
                     return true;
-                } else {
-                    echo "passwords don't match";
-                }
+                } 
             }
             return false;
         } else {
@@ -72,5 +88,11 @@ class User {
     public function update() {
         // UPDATE `table` SET `row1`='value' WHERE `row1`='value');
         
+    }
+    public function setPostID($paramid) {
+        self::$id = $paramid; 
+    }
+    public function getPostID() {
+        return self::$id;
     }
 }
