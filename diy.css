@@ -1,49 +1,49 @@
-        nav {
-            font-family: Arial, Verdana;
-            font-size: 28px;
-            margin: 0;
-            padding: 0;
-            float: right;
-            margin-right: 252px;
-            margin-top: -60px;
-        }
-        
-        ul{
-            list-style-type: none;
-            margin: 10px;
-            padding: 0px;
-            width: 250px;
-            background-color: #397628;
-            position: fixed;
-            
-        }
-        li a{
-            display: block;
-            color: #000;
-            padding: 10px;
-            text-decoration: none;
-            text-align: center;
-            width: 250px;
-            margin: 0;
-            
-        }
-        li a:hover {
-            background-color: #246024;
-            color: white;
-            width: 250px;
-            padding-right: 0px;
-            padding-left: 0px;
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-        header{
-            float: right;
-            width: 80%
-        }
-        .active{
-            background-color: #4CAF50;
-            color: white;
-        }
+nav {
+    font-family: Arial, Verdana;
+    font-size: 28px;
+    margin: 0;
+    padding: 0;
+    float: right;
+    margin-right: 252px;
+    margin-top: -60px;
+}
+
+ul{
+    list-style-type: none;
+    margin: 10px;
+    padding: 0px;
+    width: 250px;
+    background-color: #397628;
+    position: fixed;
+
+}
+li a{
+    display: block;
+    color: #000;
+    padding: 10px;
+    text-decoration: none;
+    text-align: center;
+    width: 250px;
+    margin: 0;
+
+}
+li a:hover {
+    background-color: #246024;
+    color: white;
+    width: 250px;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+header{
+    float: right;
+    width: 80%
+}
+.active{
+    background-color: #4CAF50;
+    color: white;
+}
 .smart-green {
     margin-left:auto;
     margin-right:auto;
@@ -102,6 +102,7 @@
 }
 .smart-green textarea{
     height:100px;
+    width: 100%;
     padding-top: 10px;
 }
 .smart-green select {
@@ -135,6 +136,16 @@
     text-align: center;
     margin: 0px auto;
     width: 35%;
+    float: left; 
+}
+.col-2 {
+    z-index: 0;
+    position: relative;
+    min-height: 1px;
+    float: none;
+    text-align: center;
+    margin: 0px auto;
+    width: 70%;
     float: left; 
 }
 .row div {

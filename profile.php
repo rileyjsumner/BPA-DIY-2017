@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php 
+session_start();
     require_once 'init.php';
     $conn = mysqli_connect("localhost", "rileyODS", "riley4ODS!", "bpa2017");
     if (!$conn) {
@@ -21,7 +22,12 @@
             </ul>
         </nav>
         <?php
-            
+            if(Token::check(Verify::get('token'))) { 
+                $profile = $_GET["User"];
+                if($profile == null) {
+                    $profile = $_SESSION["name"];
+                }
+            }
         ?>
     </body>
 </html>
