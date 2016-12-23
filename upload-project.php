@@ -41,11 +41,7 @@
                 <li class="active"><a href="upload-project.php">Upload Project</a></li>
                 <li><a href="submit-idea.php">Submit an Idea</a></li>
                 <li><a href="login-register.php">Login/Register</a></li>
-<<<<<<< HEAD
-            </ul>
-=======
-            </ul>   
->>>>>>> origin/master
+            </ul>  
         </nav>
         <div class="col-1">
             <?php 
