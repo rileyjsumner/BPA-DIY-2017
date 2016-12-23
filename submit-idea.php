@@ -21,16 +21,21 @@ session_start();
 ?>
 <html>
     <head>
+        <link rel="stylesheet" href="diy.css" type="text/css">
         <meta charset="UTF-8">
         <title>Home</title>
     </head>
     <body>
+        <div class="header">
+        <img src="Pictures/DIY header.jpg" alt=""/>
+        </div>
         <nav class="nav">
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="upload-project.php">Upload Project</a></li>
-                <li><a href="submit-idea.php">Submit an Idea</a></li>
-            </ul>
+                <li class="active"><a href="submit-idea.php">Submit an Idea</a></li>
+                <li><a href="login-register.php">Login/Register</a></li>
+            </ul>   
         </nav>
         <?php
             
