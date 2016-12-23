@@ -23,7 +23,8 @@
         </nav>
         <div class="col-1">
             <?php 
-                if($_GET['action'] == "title") { ?>
+                if($_GET['action'] == "title" || $_GET['action'] == null) { 
+                    $_GET['action'] = "title"; ?>
                     <form role="form" class="title" method="POST" action="?action=materials">
                         <table>
                             <tr>
@@ -41,8 +42,11 @@
                         </table>
                         <input type="submit" name="submit" value="next>">
                     </form>
-            <?php} else if($_GET['action'] == "materials") { ?>
-                <form class="my-form" role="form" method="post">
+            <?php } else if($_GET['action'] == "materials") { 
+                $title = Input::get("title");
+                $description = Input::get('description');
+                ?>
+                <form class="my-form" role="form" method="POST" action="?action=steps">
                     <table class="materialstab" style="border:1px solid;" cellpadding="5">
                         <tr>
                             <td>
@@ -60,7 +64,7 @@
                     </table>
                     <script type="text/javascript">
                         jQuery(document).ready(function() {
-                            $('.my-form .add-box').click(function() {
+                            $('.my-form .add-box').click(function() { //add box
                               var n = $('.text-box').length + 1;
 
                               var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /></p></td><td><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /><a href="#" class="remove-box">Remove</a></p></td></tr>');
@@ -69,34 +73,45 @@
                               box_html.fadeIn('slow');
                               return false;
                             });
-                            $('.my-form').on('click', '.remove-box', function(){
+                            $('.my-form').on('click', '.remove-box', function(){ //remove box
                                 $(this).parent().css( 'background-color', '#FF6C6C' );
                                 $(this).parent().fadeOut("slow", function() {
                                     $(this).remove();
                                     $('.box-number').each(function(index){
-                                        $(this).text( index + 2 );
+                                        $(this).text( index + 1 );
                                     });
                                 });
                                 return false;
                             });
                         });
-                        $(document).ready( function () {
+                        $(document).ready( function () { //calculate # of elements, set form data
 
-                            var nbtextbox = $('input[name="materials"]').length;
-                            var box_2 = $('<input type="hidden" name="elem1" value="'+nbtextbox+'">');
+                            var textboxcount = document.getElementsByName("materials").length;
+                            var box_2 = $('<input type="hidden" name="elem1" value="'+textboxcount+'">');
                             $('.my-form p.text-box:last').after(box_2);
 
                        });
                     </script>
+                    <input type="submit" name="submit" value="next>">
                 </form>
-            <?php} else if($_GET['action'] == "steps") { ?>
-                <form>
-                    <p class="text-box">
-                        <label for="steps">Steps</label>
-                        <input type="text" name="steps" value="" />
-                        <a class="add-box2" href="#">Add More</a>
-                    </p>
-                    <!--<script type="text/javascript">
+            <?php } else if($_GET['action'] == "steps") { 
+                $elems = Input::get("elem1");
+                echo "elems=", $elems, "<br>";
+                $_SESSION['materials'] = "";
+                ?>
+                <form action="?action=socialmedia" method="POST">
+                    <table style="border:1px solid">
+                        <tr>
+                            <td>
+                                <p class="text-box">
+                                    <label for="steps">Steps</label>
+                                    <input type="text" name="steps" value="" />
+                                    <a class="add-box2" href="#">Add More</a>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <script type="text/javascript">
                     jQuery(document).ready(function($){
                         $('.my-form .add-box2').click(function(){
                             var n = $('.text-box').length + 1;
@@ -126,25 +141,35 @@
                         $('.my-form p.text-box:last').after(box_2);
 
                    });
-                    </script>-->
+                    </script>
+                    <input type="submit" name="submit" value="next>">
                 </form>
-            <?php} else if($_GET['action'] == "socialmedia") { ?>
-                <form>  
+            <?php } else if($_GET['action'] == "socialmedia") { 
+                
+                ?>
+                <form action="?action=images" method="POST">  
                     <label for="facebook">Facebook</label><input type="text" name="facebook" value=""><br>
                     <label for="twitter">Twitter</label><input type="text" name="twitter" value=""><br>
                     <label for="instagram">Instagram</label><input type="text" name="instagram" value=""><br>
                     <label for="pinterest">Pinterest</label><input type="text" name="pinterest" value=""><br>
                     <label for="snapchat">Snapchat</label><input type="text" name="snapchat" value=""><br>
                     <label for="google">Google+</label><input type="text" name="google" value=""><br>
-                    <p><input type="submit" value="Submit" name="save" /></p>
+                    <input type="submit" name="submit" value="next>">
                 </form>
-            <?php} else if($_GET['action'] == "images") {?>
-                <form action="" method="post" enctype="multipart/form-data">
+            <?php } else if($_GET['action'] == "images") { 
+                $facebook = Input::get("facebook");
+                $twitter = Input::get("twitter");
+                $instagram = Input::get("instagram");
+                $pinterest = Input::get("pinterest");
+                $snapchat = Input::get("snapchat");
+                $google = Input::get("google");
+                ?>
+                <form action="preview.php" method="post" enctype="multipart/form-data">
                     Select image to upload:
                     <input type="file" name="fileToUpload" id="fileToUpload">
                     <input type="submit" value="Upload Image" name="submit">
                 </form>
-            <?php} 
+            <?php } 
             $file = "";
             $target_dir = "uploads/";
             $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -163,31 +188,24 @@
             }
             // Check if file already exists
             if (file_exists($target_file)) {
-                echo "Sorry, file already exists.";
                 $uploadOk = 0;
             }
             // Check file size
             if ($_FILES["fileToUpload"]["size"] > 500000) {
-                echo "Sorry, your file is too large.";
                 $uploadOk = 0;
             }
             // Allow certain file formats
             if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
             && $imageFileType != "gif" ) {
-                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
                 $uploadOk = 0;
             }
             // Check if $uploadOk is set to 0 by an error
             if ($uploadOk == 0) {
-                echo "Sorry, your file was not uploaded.";
             // if everything is ok, try to upload file
             } else {
                 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                     $file.=basename( $_FILES["fileToUpload"]["name"]);
-                    echo "The file ". $file . " has been uploaded.";
-                } else {
-                    echo "Sorry, there was an error uploading your file.";
-                }
+                } 
             }
             if(Input::get("submit")) {
                 /*$imgData = file_get_contents($file);
@@ -206,18 +224,15 @@
                 for($x = 1; $x < Input::get('elem1'); $x++) {
 
                 }
-
-                $_SESSION['title'] = Input::get();
-                $_SESSION['description'] = Input::get();
-                $_SESSION['materials'] = Input::get();
-                $_SESSION['steps'] = Input::get();
-                $_SESSION['facebook'] = Input::get();
-                $_SESSION['twitter'] = Input::get();
-                $_SESSION['instagram'] = Input::get();
-                $_SESSION['pinterest'] = Input::get();
-                $_SESSION['snapchat'] = Input::get();
-                $_SESSION['google'] = Input::get();
             }
+            $_SESSION['title'] = $title;
+            $_SESSION['description'] = $description;
+            $_SESSION['facebook'] = $facebook;
+            $_SESSION['twitter'] = $twitter;
+            $_SESSION['instagram'] = $instagram;
+            $_SESSION['pinterest'] = $pinterest;
+            $_SESSION['snapchat'] = $napchat;
+            $_SESSION['google'] = $google;
             ?>
         </div>
     </body>
