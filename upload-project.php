@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php 
     require_once 'init.php';
+    session_start();
     $conn = mysqli_connect("localhost", "rileyODS", "riley4ODS!", "bpa2017");
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -45,6 +46,11 @@
             <?php } else if($_GET['action'] == "materials") { 
                 $title = Input::get("title");
                 $description = Input::get('description');
+                
+                $_SESSION["title"] = $title;
+                $_SESSION["description"] = $description;
+                
+                echo $_SESSION["title"], $_SESSION["description"];
                 ?>
                 <form class="my-form" role="form" method="POST" action="?action=steps">
                     <table class="materialstab" style="border:1px solid;" cellpadding="5">
@@ -62,6 +68,7 @@
                             </td>
                         </tr>
                     </table>
+                    <input type="submit" name="submit" id="btnsbmit" value="next>">
                     <script type="text/javascript">
                         jQuery(document).ready(function() {
                             $('.my-form .add-box').click(function() { //add box
@@ -84,45 +91,44 @@
                                 return false;
                             });
                         });
-                        $(document).ready( function () { //calculate # of elements, set form data
+                        $("#btnsbmit").click( function () { //calculate # of elements, set form data
 
                             var textboxcount = document.getElementsByName("materials").length;
-                            var box_2 = $('<input type="hidden" name="elem1" value="'+textboxcount+'">');
-                            $('.my-form p.text-box:last').after(box_2);
+                            var box = $('<input type="hidden" name="elem1" value="'+textboxcount+'">');
+                            $('.my-form p.text-box:last').after(box);
 
                        });
                     </script>
-                    <input type="submit" name="submit" value="next>">
                 </form>
             <?php } else if($_GET['action'] == "steps") { 
                 $elems = Input::get("elem1");
-                echo "elems=", $elems, "<br>";
                 $_SESSION['materials'] = "";
                 ?>
-                <form action="?action=socialmedia" method="POST">
-                    <table style="border:1px solid">
+                <form class="my-form2" role="form" action="?action=socialmedia" method="POST">
+                    <table class="materialstab" style="border:1px solid">
                         <tr>
                             <td>
                                 <p class="text-box">
                                     <label for="steps">Steps</label>
                                     <input type="text" name="steps" value="" />
-                                    <a class="add-box2" href="#">Add More</a>
+                                    <a class="add-box" href="#">Add More</a>
                                 </p>
                             </td>
                         </tr>
                     </table>
+                    <input type="submit" name="submit" id="btnsbmit2" value="next>">
                     <script type="text/javascript">
-                    jQuery(document).ready(function($){
-                        $('.my-form .add-box2').click(function(){
+                    jQuery(document).ready(function() {
+                        $('.my-form2 .add-box').click(function(){
                             var n = $('.text-box').length + 1;
 
-                            var box_html = $('<p class="text-box"><input type="text" name="steps" value="" id="steps' + n + '" /> <a href="#" class="remove-box">Remove</a></p>');
+                            var box_html = $('<tr><td><p class="text-box"><input type="text" name="steps" value="" id="steps' + n + '" /> <a href="#" class="remove-box">Remove</a></p></td></tr>');
                             box_html.hide();
-                            $('.my-form p.text-box:last').after(box_html);
+                            $('.my-form .materialstab tr:last').after(box_html);
                             box_html.fadeIn('slow');
                             return false;
                         });
-                        $('.my-form').on('click', '.remove-box', function(){
+                        $('.my-form2').on('click', '.remove-box', function(){
                             $(this).parent().css( 'background-color', '#FF6C6C' );
                             $(this).parent().fadeOut("slow", function() {
                                 $(this).remove();
@@ -134,15 +140,14 @@
                         });
 
                     });
-                    $(document).ready( function () {
+                    $("#btnsbmit2").click( function () { //calculate # of elements, set form data
 
-                        var nbtextbox = $('input[name="steps"]').length;
-                        var box_2 = $('<input type="hidden" name="elem2" value="'+nbtextbox+'">');
-                        $('.my-form p.text-box:last').after(box_2);
+                        var textboxcount2 = document.getElementsByName("steps").length;
+                        var box_2 = $('<input type="hidden" name="elem2" value="'+textboxcount2+'">');
+                        $('.my-form2 p.text-box:last').after(box_2);
 
-                   });
+                    });
                     </script>
-                    <input type="submit" name="submit" value="next>">
                 </form>
             <?php } else if($_GET['action'] == "socialmedia") { 
                 
@@ -163,6 +168,13 @@
                 $pinterest = Input::get("pinterest");
                 $snapchat = Input::get("snapchat");
                 $google = Input::get("google");
+                
+                $_SESSION["facebook"] = $facebook;
+                $_SESSION["twitter"] = $twitter;
+                $_SESSION["instagram"] = $instagram;
+                $_SESSION["pinterest"] = $pinterest;
+                $_SESSION["snapchat"] = $napchat;
+                $_SESSION["google"] = $google;
                 ?>
                 <form action="preview.php" method="post" enctype="multipart/form-data">
                     Select image to upload:
@@ -178,11 +190,9 @@
             // Check if image file is a actual image or fake image
             if(isset($_POST["submit"])) {
                 $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-                if($check !== false) {
-                    echo "File is an image - " . $check["mime"] . ".";
+                if($check !== false) { 
                     $uploadOk = 1;
                 } else {
-                    echo "File is not an image.";
                     $uploadOk = 0;
                 }
             }
@@ -225,14 +235,7 @@
 
                 }
             }
-            $_SESSION['title'] = $title;
-            $_SESSION['description'] = $description;
-            $_SESSION['facebook'] = $facebook;
-            $_SESSION['twitter'] = $twitter;
-            $_SESSION['instagram'] = $instagram;
-            $_SESSION['pinterest'] = $pinterest;
-            $_SESSION['snapchat'] = $napchat;
-            $_SESSION['google'] = $google;
+            
             ?>
         </div>
     </body>
