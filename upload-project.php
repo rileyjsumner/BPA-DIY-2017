@@ -36,6 +36,7 @@
                 <li><a href="index.php">Home</a></li>
                 <li><a href="upload-project.php">Upload Project</a></li>
                 <li><a href="submit-idea.php">Submit an Idea</a></li>
+                <li><a href="login-register.php">Login/Register</a></li>
             </ul>
         </nav>
         <div class="col-1">
@@ -182,7 +183,15 @@
                 $snapchat = Input::get("snapchat");
                 $google = Input::get("google");
                 
+                $sql4 = "UPDATE `users` WHERE `userID`=$userID SET "
+                        . "`facebook`='$facebook', "
+                        . "`twitter`='$twitter', "
+                        . "`instagram`='$instagram'"
+                        . "`pinterest`='$pinterest'"
+                        . "`snapchat`='$snapchat'"
+                        . "`google`='$google'";
                 
+                $result4 = mysqli_query($conn, $sql4);
                 ?>
                 <form action="preview.php" method="post" enctype="multipart/form-data">
                     Select image to upload:

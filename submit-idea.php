@@ -36,22 +36,24 @@ session_start();
             
         ?>
      
- <form action="">
+ <form action="" method="post">
   Project name :<br>
-  <input type="text" name="project name" value=" ">
+  <input type="text" name="projectname" value=" ">
   <br>
   Description 
   <textarea name="Description" value=" "></textarea>
   <br>
- <input type="submit" value="Submit">
+ <input name="submit" type="submit" value="Submit">
 </form>  
-  
-</form>
-   <?php 
-    $name = "Project name";
-    $description = "";
-    
-    echo $name, '<br>', $description;
+ 
+   <?php
+   if(Input::get("submit")) {
+       $name = Input::get("projectname");
+       $description = Input::get("Description");
+
+       $sql="INSERT INTO `ideas` (`user`, `name`, `description`) VALUES ('$userName','$name','$description');";
+       $result=  mysqli_query($conn, $sql);
+   }
     ?>
 </body>
     
