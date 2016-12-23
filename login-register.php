@@ -82,9 +82,7 @@
                 if($user->login($conn, $username, $password)) {
                     $_SESSION["id"] = $user->getID($conn, $username);
                     $_SESSION["name"] = $username;
-                } else {
-                    echo "login failed";
-                }
+                } 
             } 
         ?>
     </body>
