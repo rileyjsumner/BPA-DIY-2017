@@ -25,7 +25,7 @@
                 <li class="active"><a href="login-register.php">Login/Register</a></li>
             </ul>   
         </nav>
-        <form action="" method="POST">
+        <form class="smart-green" action="" method="POST">
             <p>Username</p>
             <input type="text" name="user" value="">
             <p>Password</p>
@@ -33,7 +33,7 @@
             <input type="hidden" value="<?php Token::generate(); ?>">
             <input type="submit" name="login" value="login">
         </form>
-        <form action="" method="POST">
+        <form class="smart-green" action="" method="POST">
             <p>Username</p>
             <input type="text" name="username" value="">
             <p>Password</p>

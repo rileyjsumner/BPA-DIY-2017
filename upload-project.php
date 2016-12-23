@@ -47,7 +47,7 @@
             <?php 
                 if($_GET['action'] == "title" || $_GET['action'] == null) { 
                     $_GET['action'] = "title"; ?>
-                    <form role="form" class="title" method="POST" action="?action=materials">
+                    <form class="smart-green" method="POST" role="form" class="title" method="POST" action="?action=materials">
                         <table>
                             <tr>
                                 <td>
@@ -72,7 +72,7 @@
                 $result = mysqli_query($conn, $sql1);
                 
                 ?>
-                <form class="my-form" role="form" method="POST" action="?action=steps">
+                <form class="smart-green" method="POST" role="form" class="my-form" role="form" method="POST" action="?action=steps">
                     <table class="materialstab" style="border:1px solid;" cellpadding="5">
                         <tr>
                             <td>
@@ -91,16 +91,16 @@
                     <input type="submit" name="submit" id="btnsbmit" value="next>">
                     <script type="text/javascript">
                         jQuery(document).ready(function() {
-                            $('.my-form .add-box').click(function() { //add box
+                            $('.smart-green .add-box').click(function() { //add box
                               var n = $('.text-box').length + 1;
 
                               var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /><a href="#" class="remove-box">Remove</a></p></td><td><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /><a href="#" class="remove-box">Remove</a></p></td></tr>');
                               box_html.hide();
-                              $('.my-form .materialstab tr:last').after(box_html);
+                              $('.smart-green .materialstab tr:last').after(box_html);
                               box_html.fadeIn('slow');
                               return false;
                             });
-                            $('.my-form').on('click', '.remove-box', function(){ //remove box
+                            $('.smart-green').on('click', '.remove-box', function(){ //remove box
                                 $(this).parent().css( 'background-color', '#FF6C6C' );
                                 $(this).parent().fadeOut("slow", function() {
                                     $(this).remove();
@@ -115,7 +115,7 @@
 
                             var textboxcount = document.getElementsByName("materials").length;
                             var box = $('<input type="hidden" name="elem1" value="'+textboxcount+'">');
-                            $('.my-form p.text-box:last').after(box);
+                            $('.smart-green p.text-box:last').after(box);
 
                        });
                     </script>
@@ -123,8 +123,8 @@
             <?php } else if($_GET['action'] == "steps") { 
                 $elem1 = Input::get("elem1");
                 ?>
-                <form class="my-form2" role="form" action="?action=socialmedia" method="POST">
-                    <table class="materialstab" style="border:1px solid">
+                <form class="smart-green" role="form" action="?action=socialmedia" method="POST">
+                    <table class="smart-green" method="POST" role="form" class="materialstab" style="border:1px solid">
                         <tr>
                             <td>
                                 <p class="text-box">
@@ -137,16 +137,16 @@
                     <input type="submit" name="submit" id="btnsbmit2" value="next>">
                     <script type="text/javascript">
                     jQuery(document).ready(function() {
-                        $('.my-form2 .add-box').click(function(){
+                        $('.smart-green .add-box').click(function(){
                             var n = $('.text-box').length + 1;
 
                             var box_html = $('<tr><td><p class="text-box"><input type="text" name="steps" value="" id="steps' + n + '" /> <a href="#" class="remove-box">Remove</a></p></td></tr>');
                             box_html.hide();
-                            $('.my-form2 .materialstab tr:last').after(box_html);
+                            $('.smart-green .materialstab tr:last').after(box_html);
                             box_html.fadeIn('slow');
                             return false;
                         });
-                        $('.my-form2').on('click', '.remove-box', function(){
+                        $('.smart-green').on('click', '.remove-box', function(){
                             $(this).parent().css( 'background-color', '#FF6C6C' );
                             $(this).parent().fadeOut("slow", function() {
                                 $(this).remove();
@@ -162,7 +162,7 @@
 
                         var textboxcount2 = document.getElementsByName("steps").length;
                         var box_2 = $('<input type="hidden" name="elem2" value="'+textboxcount2+'">');
-                        $('.my-form2 p.text-box:last').after(box_2);
+                        $('.smart-green p.text-box:last').after(box_2);
 
                     });
                     </script>
@@ -170,7 +170,7 @@
             <?php } else if($_GET['action'] == "socialmedia") { 
                 
                 ?>
-                <form action="?action=images" method="POST">  
+                <form class="smart-green" role="form" action="?action=images" method="POST">  
                     <label for="facebook">Facebook</label><input type="text" name="facebook" value=""><br>
                     <label for="twitter">Twitter</label><input type="text" name="twitter" value=""><br>
                     <label for="instagram">Instagram</label><input type="text" name="instagram" value=""><br>
@@ -197,7 +197,7 @@
                 
                 $result4 = mysqli_query($conn, $sql4);
                 ?>
-                <form action="preview.php" method="post" enctype="multipart/form-data">
+                <form class="smart-green" role="form" action="preview.php" method="post" enctype="multipart/form-data">
                     Select image to upload:
                     <input type="file" name="fileToUpload" id="fileToUpload">
                     <input type="submit" value="Upload Image" name="submit">
