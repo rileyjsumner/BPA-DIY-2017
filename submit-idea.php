@@ -32,25 +32,33 @@ session_start();
             </ul>   
         </nav>
         <?php
-            
+            if(Token::check(Verify::get('token'))) {
         ?>
      
         <form class="smart-green" action="" method="post">
             <p>Project Name</p><br>
-                <input type="text" name="projectname" value=""><br>
+                <input type="text" name="projectname" placeholder="Project Name" value=""><br>
             <p>Description</p> 
-                <textarea name="description" value=" "></textarea><br>
+                <textarea name="description" placeholder="Be sure to include any specifications (ie. cost, time, materials, etc.)" value=""></textarea><br>
                 <input name="submit" type="submit" value="Submit">
         </form>  
  
-   <?php
-   if(Input::get("submit")) {
-       $name = Input::get("projectname");
-       $description = Input::get("description");
+            <?php } else {
+                echo "<p>You are not <a href='login-register.php'>logged in</a></p>";
+            }
+            if(Input::get("submit")) {
+                $name = Input::get("projectname");
+                $description = Input::get("description");
 
-       $sql="INSERT INTO `ideas` (`user`, `name`, `description`) VALUES ('$userName','$name','$description');";
-       $result=  mysqli_query($conn, $sql);
-   }
+                $sql="INSERT INTO `ideas` (`user`, `name`, `description`) VALUES ('$userName','$name','$description');";
+                $result = mysqli_query($conn, $sql);
+                
+                if($result) {
+                    echo "<p>Your idea was submitted!</p>";
+                } else {
+                    echo "<p>An error occured. Please try again.</p>";
+                }
+            }
     ?>
 </body>
     

@@ -25,38 +25,48 @@
                 <li class="active"><a href="login-register.php">Login/Register</a></li>
             </ul>   
         </nav>
-        <form class="smart-green" action="" method="POST">
-            <p>Username</p>
-            <input type="text" name="user" value="">
-            <p>Password</p>
-            <input type="password" name="pass" value="">
-            <input type="hidden" value="<?php Token::generate(); ?>">
-            <input type="submit" name="login" value="login">
-        </form>
-        <form class="smart-green" action="" method="POST">
-            <p>Username</p>
-            <input type="text" name="username" value="">
-            <p>Password</p>
-            <input type="password" name="password" value="">
-            <p>Verify</p>
-            <input type="password" name="verify" value="">
-            <input type="hidden" value="<?php Token::generate(); ?>">
-            <input type="submit" name="register" value="Register">
-        </form>
+        <div class="row">
+            <div class="col-1">
+                <form class="smart-green" action="" method="POST">
+                    
+                    <p>Username</p>
+                    <input type="text" name="user" placeholder="Username" value="">
+                    <p>Password</p>
+                    <input type="password" name="pass" placeholder="Password" value="">
+                    <input type="hidden" value="<?php echo Token::generate(); ?>">
+                    <input type="submit" name="login" value="login">
+                </form>
+            </div>
+            <div class="col-1">
+                <form class="smart-green" action="" method="POST">
+                    <p>Username</p>
+                    <input type="text" name="username" placeholder="Username" value="">
+                    <p>Email</p>
+                    <input type="email" name="email" placeholder="yourname@example.com" value="">
+                    <p>Password</p>
+                    <input type="password" name="password" placeholder="Password" value="">
+                    <p>Verify</p>
+                    <input type="password" name="verify" placeholder="Verify Password" value="">
+                    <input type="hidden" value="<?php echo Token::generate(); ?>">
+                    <input type="submit" name="register" value="Register">
+                </form>
+            </div>
+        </div>
         <?php
             if(Input::get("register")) {
                 $username = Input::get("username");
                 $password = Input::get("password");
+                $email = Input::get("email");
                 $verify = Input::get("verify");
-                if(!(empty($username) || empty($password) || empty($verify))) {
+                if(!(empty($username) || empty($password) || empty($verify) || empty($email))) {
                         if(strcmp($verify, $password) == 0) {
                             $salt = Hash::salt(64);
                             $newpass = Hash::make($password, $salt);
-                            $sql = "INSERT INTO `users` (`username`, `password`, `salt`) VALUES ('$username', '$newpass', '$salt');";
+                            $sql = "INSERT INTO `users` (`username`, `email` , `password`, `salt`) VALUES ('$username', '$email' ,'$newpass', '$salt');";
                             if(mysqli_query($conn, $sql)) {
-                                echo "login success";
+                                echo "<p>login success</p>";
                             } else {
-                                echo "fail";
+                                echo "<p>an error occured</p>";
                             }
                         }
                         else {
@@ -75,9 +85,7 @@
                 } else {
                     echo "login failed";
                 }
-            } else {
-                echo "no request";
-            }
+            } 
         ?>
     </body>
 </html>

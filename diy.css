@@ -44,7 +44,7 @@
             background-color: #4CAF50;
             color: white;
         }
-        .smart-green {
+.smart-green {
     margin-left:auto;
     margin-right:auto;
 
@@ -86,7 +86,7 @@
     margin-top: 10px;
     color: #5E5E5E;
 }
-.smart-green input[type="text"], .smart-green input[type="Description"], .smart-green textarea, .smart-green select {
+.smart-green input[type="text"], .smart-green input[type="Description"], .smart-green textarea, .smart-green select, .smart-green input[type="password"] {
     color: #555;
     height: 30px;
     line-height:15px;
@@ -126,4 +126,34 @@
 }
 .smart-green .button:hover {
     background-color:#80A24A;
+}
+.col-1 {
+    z-index: 0;
+    position: relative;
+    min-height: 1px;
+    float: none;
+    text-align: center;
+    margin: 0px auto;
+    width: 35%;
+    float: left; 
+}
+.row div {
+    text-align: left;
+    padding: 10px;
+    
+}
+.row {
+    z-index: -1;
+    margin-left: -15px;
+    margin-right: -15px;
+    color: black;
+    font-family: 'fantasy', serif; 
+    font: Papyrus, book antiqua;
+}
+.row:before, .row:after{
+    content: " ";
+    display: table;
+}
+.row:after {
+    clear: both;
 }

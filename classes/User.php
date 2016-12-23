@@ -37,7 +37,24 @@ class User {
             }
             return false;
         } else {
-            echo 'request failed';
+            $sql3 = "SELECT * FROM `users` WHERE `email`='$username';";
+            $result3 = mysqli_query($conn, $sql);
+            if(mysqli_num_rows($result) > 0) {
+                if($row = mysqli_fetch_assoc($result)) {
+                    $salt = $row["salt"];
+                    $pass = Hash::make($password, $salt);
+                    $len = strlen($row["password"]);
+                    $check = Hash::check($password, $salt);
+                    if(substr($check, 0, $len) == $row["password"]) {
+
+                        $sql2 = "UPDATE `users` SET `login`='true' WHERE `email`='$username';";
+                        mysqli_query($conn, $sql2);
+                        return true;
+                    } 
+                }
+            } else {
+                //fail
+            }
         }
     }
     
