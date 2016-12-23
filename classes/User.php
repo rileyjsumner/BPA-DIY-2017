@@ -14,9 +14,7 @@ class User {
             while($row = mysqli_fetch_assoc($result)) {
                 return $row["userID"];
             }
-        } else {
-            return false;
-        }
+        } 
     }
     public function checkLogin($token, $username) {
         
@@ -25,12 +23,13 @@ class User {
         $sql = "SELECT * FROM `users` WHERE `username`='$username';";
         $result = mysqli_query($conn, $sql);
         if(mysqli_num_rows($result) > 0) {
-            while($row = mysqli_fetch_assoc($result)) {
+            if($row = mysqli_fetch_assoc($result)) {
                 $salt = $row["salt"];
-                $pass = $row["password"];
-                $len = strlen($pass);
+                $pass = Hash::make($password, $salt);
+                $len = strlen($row["password"]);
                 $check = Hash::check($password, $salt);
-                if(substr($check, 0, $len-1) == $pass) {
+                if(substr($check, 0, $len) == $row["password"]) {
+                    
                     $sql2 = "UPDATE `users` SET `login`='true' WHERE `username`='$username';";
                     mysqli_query($conn, $sql2);
                     return true;
