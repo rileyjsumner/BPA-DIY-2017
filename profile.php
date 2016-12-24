@@ -15,6 +15,9 @@ session_start();
         <title>Home</title>
     </head>
     <body>
+        <div class="header">
+        <img src="Pictures/DIY header 2.jpg" alt=""/>
+        </div>
         <nav class="nav">
             <ul>
                 <li><a href="index.php">Home</a></li>
