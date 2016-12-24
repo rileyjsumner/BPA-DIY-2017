@@ -175,12 +175,12 @@
 
                     ?>
                     <form class="smart-green" role="form" action="?action=images" method="POST">  
-                        <label for="facebook">Facebook</label><input type="text" name="facebook" value=""><br>
-                        <label for="twitter">Twitter</label><input type="text" name="twitter" value=""><br>
-                        <label for="instagram">Instagram</label><input type="text" name="instagram" value=""><br>
-                        <label for="pinterest">Pinterest</label><input type="text" name="pinterest" value=""><br>
-                        <label for="snapchat">Snapchat</label><input type="text" name="snapchat" value=""><br>
-                        <label for="google">Google+</label><input type="text" name="google" value=""><br>
+                        <label for="facebook">Facebook</label><input type="text" name="facebook" placeholder="http://facebook.com/" value=""><br>
+                        <label for="twitter">Twitter</label><input type="text" name="twitter" placeholder="@" value=""><br>
+                        <label for="instagram">Instagram</label><input type="text" name="instagram" placeholder="@" value=""><br>
+                        <label for="pinterest">Pinterest</label><input type="text" name="pinterest" placeholder="http://www.pinterest.com/" value=""><br>
+                        <label for="snapchat">Snapchat</label><input type="text" name="snapchat" placeholder="@" value=""><br>
+                        <label for="google">Google+</label><input type="text" name="google" placeholder="plus.google.com/" value=""><br>
                         <button type="submit" name="prev" id="btnsbmit5" formaction="?action=steps">Previous</button>
                         <button type="submit" name="next" id="btnsbmit6" formaction="?action=images">Next</button>
                     </form>
