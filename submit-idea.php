@@ -21,7 +21,7 @@ session_start();
     </head>
     <body>
         <div class="header">
-        <img src="Pictures/DIY header.jpg" alt=""/>
+            <img src="Pictures/BPA-Banner.png" width="100%" alt=""/>
         </div>
         <nav class="nav">
             <ul>
@@ -35,32 +35,35 @@ session_start();
         <?php
             if(Token::check(Verify::get('token'))) {
         ?>
-     
-        <form class="smart-green" action="" method="post">
-            <p>Project Name</p><br>
-                <input type="text" name="projectname" placeholder="Project Name" value=""><br>
-            <p>Description</p> 
-                <textarea name="description" placeholder="Be sure to include any specifications (ie. cost, time, materials, etc.)" value=""></textarea><br>
-                <input name="submit" type="submit" value="Submit">
-        </form>  
- 
-            <?php } else {
-                echo "<p>You are not <a href='login-register.php'>logged in</a></p>";
-            }
-            if(Input::get("submit")) {
-                $name = Input::get("projectname");
-                $description = Input::get("description");
+        <div class="row">
+            <div class="col-2">
+                <form class="smart-green" action="" method="post">
+                    <p>Project Name</p><br>
+                        <input type="text" name="projectname" placeholder="Project Name" value=""><br>
+                    <p>Description</p> 
+                        <textarea name="description" placeholder="Be sure to include any specifications (ie. cost, time, materials, etc.)" value=""></textarea><br>
+                        <input name="submit" type="submit" value="Submit">
+                </form>  
 
-                $sql="INSERT INTO `ideas` (`user`, `name`, `description`) VALUES ('$userName','$name','$description');";
-                $result = mysqli_query($conn, $sql);
-                
-                if($result) {
-                    echo "<p>Your idea was submitted!</p>";
-                } else {
-                    echo "<p>An error occured. Please try again.</p>";
-                }
-            }
-    ?>
+                    <?php } else {
+                        echo "<p>You are not <a href='login-register.php'>logged in</a></p>";
+                    }
+                    if(Input::get("submit")) {
+                        $name = Input::get("projectname");
+                        $description = Input::get("description");
+
+                        $sql="INSERT INTO `ideas` (`user`, `name`, `description`) VALUES ('$userName','$name','$description');";
+                        $result = mysqli_query($conn, $sql);
+
+                        if($result) {
+                            echo "<p>Your idea was submitted!</p>";
+                        } else {
+                            echo "<p>An error occured. Please try again.</p>";
+                        }
+                    }
+                    ?>
+            </div>
+        </div>
 </body>
     
 </html>

@@ -36,9 +36,9 @@ li a:hover {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-header{
-    float: right;
-    width: 80%
+.header{
+    float: left;
+    margin-top: 0px;
 }
 .active{
     background-color: #4CAF50;
@@ -171,4 +171,5 @@ header{
 body {
     background-image: url("Pictures/bark.jpg");
     background-size: 1000px 1000px;
+    margin-top: 0px;
 }

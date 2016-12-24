@@ -15,7 +15,7 @@
     </head>
     <body>
         <div class="header">
-        <img src="Pictures/DIY header.jpg" alt=""/>
+        <img src="Pictures/BPA-Banner.png" width="100%" alt=""/>
         </div>
         <nav class="nav">
             <ul>
