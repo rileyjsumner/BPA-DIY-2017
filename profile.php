@@ -16,7 +16,7 @@ session_start();
     </head>
     <body>
         <div class="header">
-        <img src="Pictures/DIY header 2.jpg" alt=""/>
+            <img src="Pictures/DIY header 2.jpg" alt=""/>
         </div>
         <nav class="nav">
             <ul>
@@ -35,15 +35,15 @@ session_start();
                 
                 $sql = "SELECT * FROM `users` WHERE `username`='$profile';";
                 $result = mysqli_query($conn, $sql);
-                if(mysqli_row_count($result) > 0) {
+                if(mysqli_num_rows($result) > 0) {
                     if($row = mysqli_fetch_assoc($result)) { ?>
                         <h1><?php echo $row["username"];?></h1>
-                        <a href="">Facebook</a>
-                        <a href="">Twitter</a>
-                        <a href="instagram.com/<?php echo $row["instagram"]; ?>">Instagram</a>
-                        <a href="pinterest.com/<?php echo $row["pinterest"]; ?>">Pinterest</a>
-                        <a href="snapchat.com/add/<?php echo $row["snapchat"]; ?>">Snapchat</a>
-                        <a href="">Google+</a>
+                        <a href="http://www.facebook.com/<?php echo $row["facebook"]; ?>" target="_blank">Facebook</a>
+                        <a href="http://www.twitter.com/<?php echo $row["twitter"];?>" target="_blank">Twitter</a>
+                        <a href="http://www.instagram.com/<?php echo $row["instagram"]; ?>" target="_blank">Instagram</a>
+                        <a href="http://www.pinterest.com/<?php echo $row["pinterest"]; ?>" target="_blank">Pinterest</a>
+                        <a href="http://www.snapchat.com/add/<?php echo $row["snapchat"]; ?>" target="_blank">Snapchat</a>
+                        <a href="http://plus.google.com/<?php echo $row["google"]; ?>" target="_blank">Google+</a>
                     <?php }
                 }
             }

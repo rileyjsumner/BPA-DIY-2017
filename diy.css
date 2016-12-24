@@ -168,6 +168,7 @@ header{
 .row:after {
     clear: both;
 }
-.body {
-    background-color: green;
+body {
+    background-image: url("Pictures/bark.jpg");
+    background-size: 1000px 1000px;
 }

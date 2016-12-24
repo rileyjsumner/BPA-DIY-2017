@@ -13,6 +13,7 @@
     $user = new User();
     
     if(Token::check(Verify::get('token'))) {
+        
         $userID = $_SESSION["id"];
         $sql = "SELECT `username` FROM `users` WHERE `userID`=$userID;";
         $result = mysqli_query($conn, $sql);
@@ -172,15 +173,26 @@
                         </script>
                     </form>
                 <?php } else if($_GET['action'] == "socialmedia") { 
-
+                        $getSM = "SELECT * FROM `users` WHERE `userID`=$userID;";
+                        $resultSM = mysqli_query($conn, $getSM);
+                        if(mysqli_num_rows($resultSM) > 0) {
+                            while($row = mysqli_fetch_assoc($resultSM)) {
+                                $fb = $row["facebook"];
+                                $tw = $row["twitter"];
+                                $ig = $row["instagram"];
+                                $pi = $row["pinterest"];
+                                $sc = $row["snapchat"];
+                                $go = $row["google"];
+                            }
+                        }
                     ?>
                     <form class="smart-green" role="form" action="?action=images" method="POST">  
-                        <label for="facebook">Facebook</label><input type="text" name="facebook" placeholder="http://facebook.com/" value=""><br>
-                        <label for="twitter">Twitter</label><input type="text" name="twitter" placeholder="@" value=""><br>
-                        <label for="instagram">Instagram</label><input type="text" name="instagram" placeholder="@" value=""><br>
-                        <label for="pinterest">Pinterest</label><input type="text" name="pinterest" placeholder="http://www.pinterest.com/" value=""><br>
-                        <label for="snapchat">Snapchat</label><input type="text" name="snapchat" placeholder="@" value=""><br>
-                        <label for="google">Google+</label><input type="text" name="google" placeholder="plus.google.com/" value=""><br>
+                        <label for="facebook">Facebook</label><input type="text" name="facebook" placeholder="http://facebook.com/" value="<?php if($fb !== null) {echo $fb;} ?>"><br>
+                        <label for="twitter">Twitter</label><input type="text" name="twitter" placeholder="@" value="<?php if($tw !== null) {echo $tw;} ?>"><br>
+                        <label for="instagram">Instagram</label><input type="text" name="instagram" placeholder="@" value="<?php if($ig !== null) {echo $ig;} ?>"><br>
+                        <label for="pinterest">Pinterest</label><input type="text" name="pinterest" placeholder="http://www.pinterest.com/" value="<?php if($pi !== null) {echo $pi;} ?>"><br>
+                        <label for="snapchat">Snapchat</label><input type="text" name="snapchat" placeholder="@" value="<?php if($sc !== null) {echo $sc;} ?>"><br>
+                        <label for="google">Google+</label><input type="text" name="google" placeholder="plus.google.com/" value="<?php if($go !== null) {echo $go;} ?>"><br>
                         <button type="submit" name="prev" id="btnsbmit5" formaction="?action=steps">Previous</button>
                         <button type="submit" name="next" id="btnsbmit6" formaction="?action=images">Next</button>
                     </form>
@@ -192,13 +204,14 @@
                     $snapchat = Input::get("snapchat");
                     $google = Input::get("google");
 
-                    $sql4 = "UPDATE `users` WHERE `userID`=$userID SET "
+                    $sql4 = "UPDATE `users` SET "
                             . "`facebook`='$facebook', "
                             . "`twitter`='$twitter', "
-                            . "`instagram`='$instagram'"
-                            . "`pinterest`='$pinterest'"
-                            . "`snapchat`='$snapchat'"
-                            . "`google`='$google'";
+                            . "`instagram`='$instagram',"
+                            . "`pinterest`='$pinterest',"
+                            . "`snapchat`='$snapchat',"
+                            . "`google`='$google'"
+                            . " WHERE `userID`=$userID";
 
                     $result4 = mysqli_query($conn, $sql4);
                     ?>
