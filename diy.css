@@ -168,3 +168,6 @@ header{
 .row:after {
     clear: both;
 }
+.body {
+    background-color: green;
+}

@@ -10,16 +10,22 @@
 ?>
 <html>
     <head>
+        <link rel="stylesheet" href="diy.css" type="text/css">
         <meta charset="UTF-8">
         <title>Home</title>
     </head>
     <body>
-        <nav class="nav">
+        <div class="header">
+        <img src="Pictures/DIY header 2.jpg" alt=""/>
+        </div>
+         <nav class="nav">
             <ul>
-                <li><a href="index.php">Home</a></li>
+                <li class="active"><a href="index.php">Home</a></li>
                 <li><a href="upload-project.php">Upload Project</a></li>
                 <li><a href="submit-idea.php">Submit an Idea</a></li>
-            </ul>
+                <li><a href="login-register.php">Login/Register</a></li>
+                <li><a href="profile.php">Profile</a></li>
+            </ul>   
         </nav>
         <div class="card">
             <!--<h2><?php echo $_SESSION["title"]; ?></h2>
