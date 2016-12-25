@@ -19,6 +19,11 @@ class User {
     public function checkLogin($token, $username) {
         
     }
+    public function follow($conn, $user, $follow) {
+        $sql = "INSERT INTO `follows` (`user`, `follow`) VALUES ('$user', '$follow');";
+        $result = mysqli_query($conn, $sql);
+        return $result ? true : false;
+    }
     public function login($conn, $username, $password) {
         $sql = "SELECT * FROM `users` WHERE `username`='$username';";
         $result = mysqli_query($conn, $sql);
