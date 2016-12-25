@@ -17,7 +17,7 @@ session_start();
     </head>
     <body>
         <div class="header">
-            <img src="Pictures/BPA-Banner.png" width="100%" alt=""/>
+            <img src="Pictures/header.png" width="100%" alt=""/>
         </div>
         <nav class="nav">
             <ul>
@@ -28,12 +28,14 @@ session_start();
                 <li class="active"><a href="profile.php">Profile</a></li>
         </nav>
         <div class="row">
-            <div class='col-2'>
+            <div class='col-2' id='profile'>
                 <?php
                     if(Token::check(Verify::get('token'))) { 
-                        $profile = $_GET["User"];
-                        if($profile == null) {
+                        
+                        if(!(isset($_GET["User"]))) {
                             $profile = $_SESSION["name"];
+                        } else {
+                            $profile = $_GET["User"];
                         }
 
                         $sql = "SELECT * FROM `users` WHERE `username`='$profile';";
@@ -41,14 +43,14 @@ session_start();
                         if(mysqli_num_rows($result) > 0) {
                             if($row = mysqli_fetch_assoc($result)) { ?>
                                 <h1><?php echo $row["username"];?></h1>
-                                <ol>
+                                <ul>
                                     <li><a href="http://www.facebook.com/<?php echo $row["facebook"]; ?>" target="_blank">Facebook</a></li>
                                     <li><a href="http://www.twitter.com/<?php echo $row["twitter"];?>" target="_blank">Twitter</a></li>
                                     <li><a href="http://www.instagram.com/<?php echo $row["instagram"]; ?>" target="_blank">Instagram</a></li>
                                     <li><a href="http://www.pinterest.com/<?php echo $row["pinterest"]; ?>" target="_blank">Pinterest</a></li>
                                     <li><a href="http://www.snapchat.com/add/<?php echo $row["snapchat"]; ?>" target="_blank">Snapchat</a></li>
                                     <li><a href="http://plus.google.com/<?php echo $row["google"]; ?>" target="_blank">Google+</a></li>
-                                </ol>
+                                </ul>
                             <?php }
                         } ?>
                         <script>
