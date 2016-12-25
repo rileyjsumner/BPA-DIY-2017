@@ -6,7 +6,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 if($_POST['action'] == 'follow') {
-    User::follow($conn, $_SESSION["name"], $profile);
+    User::follow($conn, $_SESSION["name"], $_POST['user']);
     echo 'data: ', $_SESSION["name"], '<br>', $profile;
 } else {
     echo 'no req';

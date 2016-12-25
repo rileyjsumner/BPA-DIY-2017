@@ -52,18 +52,18 @@ session_start();
                             <?php }
                         } ?>
                         <script>
-                        function myAjax() {
+                        function myAjax(a) {
                               $.ajax({
                                    type: "POST",
                                    url: '/ajax.php',
-                                   data:{action:'follow'},
+                                   data:{action:'follow', user: a},
                                    success: function() {
                                        console.log("called");
                                    }
                               });
                          }
                         </script>
-                        <button type='button' name='follow' id='follow' onclick='myAjax()'>Follow @<?php echo $profile ?></button>
+                        <button type='button' name='follow' id='follow' onclick='myAjax(<?php echo "\"$profile\""; ?>)'>Follow @<?php echo $profile ?></button>
                         
                     <?php }
                 ?>
