@@ -64,6 +64,5 @@ session_start();
                     ?>
             </div>
         </div>
-</body>
-    
+    </body>
 </html>

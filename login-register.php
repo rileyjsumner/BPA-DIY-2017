@@ -15,9 +15,9 @@
     </head>
     <body>
         <div class="header">
-        <img src="Pictures/header.png" width="100%" alt=""/>
+            <img src="Pictures/header.png" width="100%" alt=""/>
         </div>
-        <nav class="nav">
+        <nav class="nav" id='login'>
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="upload-project.php">Upload Project</a></li>

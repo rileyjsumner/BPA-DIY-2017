@@ -5,7 +5,7 @@ nav {
     padding: 0;
     float: right;
     margin-right: 252px;
-    margin-top: -60px;
+    margin-top: -10px;
 }
 
 nav ul{
@@ -13,7 +13,7 @@ nav ul{
     margin: 10px;
     padding: 0px;
     width: 250px;
-    background-color: #397628;
+    background-color: #6F9458;
     position: fixed;
 
 }
@@ -25,29 +25,23 @@ nav li a{
     text-align: center;
     width: 250px;
     margin: 0;
-
 }
 nav li a:hover {
-    background-color: #246024;
-    color: white;
+    background-color: #548540;
+    color: #000;
     width: 250px;
-    padding-right: 0px;
-    padding-left: 0px;
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
 .header{
     float: left;
     margin-top: 0px;
 }
 .active{
-    background-color: #4CAF50;
+    background-color: #8AA370;
     color: white;
 }
 .smart-green {
     margin-left:auto;
     margin-right:auto;
-
     max-width: 500px;
     background: #F8F8F8;
     padding: 30px 30px 20px 30px;
@@ -157,6 +151,7 @@ nav li a:hover {
     z-index: -1;
     margin-left: -15px;
     margin-right: -15px;
+    margin-top: 2px;
     color: black;
     font-family: 'fantasy', serif; 
     font: Papyrus, book antiqua;
@@ -179,4 +174,7 @@ body {
 }
 #profile ul {
     
+}
+#login ul{
+    margin-top: 14px;
 }
