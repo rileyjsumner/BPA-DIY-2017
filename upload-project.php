@@ -126,6 +126,14 @@
                     </form>
                 <?php } else if($_GET['action'] == "steps") { 
                     $elem1 = Input::get("elem1");
+                    echo "elemCT: ", $elem1;
+                    $dbString = "<ul>";
+                    for($x = 0; $x < $elem1; $x++) {
+                        $dbString.= "<li><a href='".Input::get("materials".$x)."'>".Input::get("url".$x)."</a></li>";
+                        echo "looped <br>";
+                    }
+                    $dbString.="</ul>";
+                    echo "Materials: ", $dbString, " end";
                     ?>
                     <form class="smart-green" role="form" action="?action=socialmedia" method="POST">
                         <table class="materialstab" method="POST" role="form" class="materialstab" style="border:1px solid">

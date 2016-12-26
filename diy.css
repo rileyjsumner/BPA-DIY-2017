@@ -178,3 +178,10 @@ body {
 #login ul{
     margin-top: 14px;
 }
+.hidden {
+    visibility: hidden;
+    max-height: 1px;
+}
+.project {
+    background-color: white;
+}

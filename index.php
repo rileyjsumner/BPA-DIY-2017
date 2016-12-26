@@ -11,6 +11,7 @@ session_start();
 <html>
     <head>
         <link rel="stylesheet" href="diy.css" type="text/css">
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <meta charset="UTF-8">
         <title>Home</title>
     </head>
@@ -29,6 +30,13 @@ session_start();
         </nav>
         <div class='row'>
             <div class='col-1'>
+                <script type='text/javascript'>
+                $(document).ready(function() {
+                    $(".expander").click(function() {
+                        $("#details").toggleClass("hidden");
+                    });
+                });
+                </script>
                 <?php 
                     $sql = "SELECT `follow` FROM `follows` WHERE `user`='".$_SESSION['name']."';";
                     $result = mysqli_query($conn, $sql); 
@@ -59,6 +67,19 @@ session_start();
                             }
                         }
                     }
+                    ksort($posts);
+                    foreach(array_reverse($posts) as $elem) { ?>
+                        <div class='project'>
+                            <h2><?php echo $elem["title"]; ?></h2>
+                            <p><?php echo $elem["description"]; ?></p>
+                            
+                            <a class="expander" href="#">click me</a>
+                            <div class='hidden' id='details'>
+                                <?php echo $row2["steps"]; ?>
+                            </div>
+                        </div>
+                    <?php }
+                    
                 ?>
             </div>
         </div>
