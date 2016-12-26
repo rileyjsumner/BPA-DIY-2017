@@ -28,7 +28,7 @@ session_start();
                 <li class="active"><a href="profile.php">Profile</a></li>
         </nav>
         <div class="row">
-            <div class='col-2' id='profile'>
+            <div class='col-1' id='profile'>
                 <?php
                     if(Token::check(Verify::get('token'))) { 
                         
@@ -69,6 +69,9 @@ session_start();
                         
                     <?php }
                 ?>
+            </div>
+            <div class='col-1'>
+                
             </div>
         </div>
     </body>
