@@ -49,19 +49,28 @@
             <div class="col-2">
                 <?php 
                     if($_GET['action'] == "title" || $_GET['action'] == null) { 
-                        $_GET['action'] = "title"; ?>
+                        $_GET['action'] = "title"; 
+                        $sqlTD = "SELECT `title`, `description` FROM `posts` WHERE `postID`=".$_SESSION['postID'].";";
+                        $resultTD = mysqli_query($conn, $sqlTD);
+                        if(mysqli_num_rows($resultTD) > 0) {
+                            while($rowTD = mysqli_fetch_assoc($resultTD)) {
+                                $titleDB = $rowTD["title"];
+                                $descDB = $rowTD["description"];
+                            }
+                        }
+                        ?>
                         <form class="smart-green" method="POST" role="form" class="title" method="POST" action="?action=materials">
                             <table>
                                 <tr>
                                     <td>
                                         <label for="title">Project Title</label>
-                                        <input type="text" name="title" value="">
+                                        <input type="text" name="title" value="<?php if($titleDB !== null) { echo "$titleDB";} ?>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <label for="description">Description</label>
-                                        <textarea name="description"></textarea>
+                                        <textarea name="description"><?php if($descDB !== null) { echo "$descDB";} ?></textarea>
                                     </td>
                                 </tr>
                             </table>
@@ -73,7 +82,15 @@
 
                     $sql1 = "INSERT INTO `posts` (`title`, `description`, `user`) VALUES ('$title', '$description', '$userName');";
                     $result = mysqli_query($conn, $sql1);
-
+                    
+                    $sql2 = "SELECT `postID` FROM `posts` WHERE `title`='$title' AND `description`='$description' AND `user`='$userName';";
+                    $result2 = mysqli_query($conn, $sql2);
+                    
+                    if(mysqli_num_rows($result2) > 0) {
+                        while($row2 = mysqli_fetch_assoc($result2)) {
+                            $_SESSION["postID"] = $row2["postID"];
+                        }
+                    }
                     ?>
                     <form class="smart-green" method="POST" role="form" class="my-form" role="form" method="POST" >
                         <table class="materialstab" style="border:1px solid;" cellpadding="5">
@@ -86,6 +103,10 @@
                                 <td>
                                     <p class="text-box">
                                         <label for="url">URL</label>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class='text-box'>
                                         <a class="add-box" href="#">Add Material</a>
                                     </p>
                                 </td>
@@ -97,17 +118,21 @@
                             jQuery(document).ready(function() {
                                 $('.smart-green .add-box').click(function() { //add box
                                   var n = $('.text-box').length + 1;
-
-                                  var box_html = $('<tr><td><p class="text-box"><input type="text" name="materials" value="" id="materials' + n + '" /><a href="#" class="remove-box">Remove</a></p></td><td><p class="text-box"> <input type="text" name="url' + n + '" value="" id="url' + n + '" /><a href="#" class="remove-box">Remove</a></p></td></tr>');
+                                  console.log(n);
+                                  var box_html = $('<tr>' + 
+                                          '<td><p class="text-box"><input class="materials" type="text" name="materials'+ n +'" value="" id="materials' + n + '" /></p></td>' + 
+                                          '<td><p class="text-box"><input type="text" name="url' + n + '" value="" id="url' + n + '" /></p></td>' + 
+                                          '<td><p class="text-box"><a href="#" class="remove-box">Remove</a></p></td></tr>');
+                                  
                                   box_html.hide();
                                   $('.smart-green .materialstab tr:last').after(box_html);
                                   box_html.fadeIn('slow');
                                   return false;
                                 });
                                 $('.smart-green').on('click', '.remove-box', function(){ //remove box
-                                    $(this).parent().css( 'background-color', '#FF6C6C' );
-                                    $(this).parent().fadeOut("slow", function() {
-                                        $(this).remove();
+                                    $(this).parents('tr').css( 'background-color', '#FF6C6C' );
+                                    $(this).parents('tr').fadeOut("slow", function() {
+                                        $(this).parents('tr').remove;
                                         $('.box-number').each(function(index){
                                             $(this).text( index + 1 );
                                         });
@@ -117,7 +142,8 @@
                             });
                             $("#btnsbmit2").click( function () { //calculate # of elements, set form data
 
-                                var textboxcount = document.getElementsByName("materials").length;
+                                var textboxcount = document.getElementsByClassName("materials").length;
+                                console.log(textboxcount);
                                 var box = $('<input type="hidden" name="elem1" value="'+textboxcount+'">');
                                 $('.smart-green p.text-box:last').after(box);
 
@@ -126,14 +152,17 @@
                     </form>
                 <?php } else if($_GET['action'] == "steps") { 
                     $elem1 = Input::get("elem1");
-                    echo "elemCT: ", $elem1;
                     $dbString = "<ul>";
+                    $y = 4;
                     for($x = 0; $x < $elem1; $x++) {
-                        $dbString.= "<li><a href='".Input::get("materials".$x)."'>".Input::get("url".$x)."</a></li>";
-                        echo "looped <br>";
+                        $dbString.= "<li><a href='".Input::get("url".$y)."'>".Input::get("materials".$y)."</a></li>";
+                        $y+=3;
                     }
                     $dbString.="</ul>";
-                    echo "Materials: ", $dbString, " end";
+                    
+                    $sql3 = "UPDATE `posts` SET `materials`='$dbstring' WHERE `postID` =".$_SESSION['postID'].";";
+                    $result3 = mysqli_query($conn, $sql3);
+                    
                     ?>
                     <form class="smart-green" role="form" action="?action=socialmedia" method="POST">
                         <table class="materialstab" method="POST" role="form" class="materialstab" style="border:1px solid">
@@ -141,6 +170,10 @@
                                 <td>
                                     <p class="text-box">
                                         <label for="steps">Steps</label>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="text-box">
                                         <a class="add-box" href="#">Add More</a>
                                     </p>
                                 </td>
@@ -152,17 +185,19 @@
                         jQuery(document).ready(function() {
                             $('.smart-green .add-box').click(function(){
                                 var n = $('.text-box').length + 1;
-
-                                var box_html = $('<tr><td><p class="text-box"><input type="text" name="steps" value="" id="steps' + n + '" /> <a href="#" class="remove-box">Remove</a></p></td></tr>');
+                                console.log(n);
+                                var box_html = $('<tr>' +
+                                        '<td><p class="text-box"><input type="text" name="steps" value="" id="steps' + n + '" /></td>' + 
+                                        '<td><p class="text-box"><a href="#" class="remove-box">Remove</a></p></td></tr>');
                                 box_html.hide();
                                 $('.smart-green .materialstab tr:last').after(box_html);
                                 box_html.fadeIn('slow');
                                 return false;
                             });
                             $('.smart-green').on('click', '.remove-box', function(){
-                                $(this).parent().css( 'background-color', '#FF6C6C' );
-                                $(this).parent().fadeOut("slow", function() {
-                                    $(this).remove();
+                                $(this).parents('tr').css( 'background-color', '#FF6C6C' );
+                                $(this).parents('tr').fadeOut("slow", function() {
+                                    $(this).parents('tr').remove;
                                     $('.box-number').each(function(index){
                                         $(this).text( index + 1 );
                                     });
@@ -181,6 +216,18 @@
                         </script>
                     </form>
                 <?php } else if($_GET['action'] == "socialmedia") { 
+                        $elem2 = Input::get("elem2");
+                        $dbString2 = "<ul>";
+                        $y2 = 3;
+                        for($x2 = 0; $x2 < $elem2; $x2++) {
+                            $dbString2.= "<li>".Input::get("steps".$y2)."</a></li>";
+                            $y2+=2;
+                        }
+                        $dbString2.="</ul>";
+
+                        $sql4 = "UPDATE `posts` SET `steps`='$dbstring2' WHERE `postID` =".$_SESSION['postID'].";";
+                        $result4 = mysqli_query($conn, $sql4);
+                    
                         $getSM = "SELECT * FROM `users` WHERE `userID`=$userID;";
                         $resultSM = mysqli_query($conn, $getSM);
                         if(mysqli_num_rows($resultSM) > 0) {
@@ -223,68 +270,46 @@
 
                     $result4 = mysqli_query($conn, $sql4);
                     ?>
-                    <form class="smart-green" role="form" action="preview.php" method="post" enctype="multipart/form-data">
-                        Select image to upload:
-                        <input type="file" name="fileToUpload" id="fileToUpload">
-                        <button type="submit" name="prev" id="btnsbmit7" formaction="?action=socialmedia">Previous</button>
-                        <button type="submit" name="preview" id="btnsbmit8" formaction="preview.php">Preview</button>
+                    <form class="smart-green" role="form" method="post" enctype="multipart/form-data">
+                        <table width="350" border="0" cellpadding="1" cellspacing="1" class="box">
+                            <tr> 
+                                <td width="246">
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
+                                    <input name="userfile" type="file" id="userfile"> 
+                                </td>
+                                <td width="80"><button type="submit" name="upload" id="btnsbmit8" formaction="?action=socialmedia">Previous</button></td>
+                                <td width="80"><button type="submit" name="upload" id="btnsbmit8" formaction="?action=estimates">Next</button></td>
+                            </tr>
+                        </table>
                     </form>
-                <?php } 
-                $file = "";
-                $target_dir = "uploads/";
-                $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-                $uploadOk = 1;
-                $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-                // Check if image file is a actual image or fake image
-                if(isset($_POST["submit"])) {
-                    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-                    if($check !== false) { 
-                        $uploadOk = 1;
-                    } else {
-                        $uploadOk = 0;
-                    }
-                }
-                // Check if file already exists
-                if (file_exists($target_file)) {
-                    $uploadOk = 0;
-                }
-                // Check file size
-                if ($_FILES["fileToUpload"]["size"] > 500000) {
-                    $uploadOk = 0;
-                }
-                // Allow certain file formats
-                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                && $imageFileType != "gif" ) {
-                    $uploadOk = 0;
-                }
-                // Check if $uploadOk is set to 0 by an error
-                if ($uploadOk == 0) {
-                // if everything is ok, try to upload file
-                } else {
-                    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                        $file.=basename( $_FILES["fileToUpload"]["name"]);
+                <?php }
+                    if(isset($_POST['upload']) && $_FILES['userfile']['size'] > 0)
+                    {
+                        $fileName = $_FILES['userfile']['name'];
+                        $tmpName  = $_FILES['userfile']['tmp_name'];
+                        $fileSize = $_FILES['userfile']['size'];
+                        $fileType = $_FILES['userfile']['type'];
+
+                        $fp = fopen($tmpName, 'r');
+                        $content = addslashes(fread($fp, filesize($tmpName)));
+                        fclose($fp);
+
+                        if(!get_magic_quotes_gpc())
+                        {
+                            $fileName = addslashes($fileName);
+                        }
+                        include 'library/config.php';
+                        include 'library/opendb.php';
+
+                        $query = "INSERT INTO upload (name, size, type, content, user ) ".
+                        "VALUES ('$fileName', '$fileSize', '$fileType', '$content', '".$_SESSION['name']."')";
+
+                        mysqli_query($conn, $query) or die('Error, query failed'); 
+                        include 'library/closedb.php';
+
+                        echo "<br>File $fileName uploaded<br>";
                     } 
-                }
-                if(Input::get("submit")) {
-                    /*$imgData = file_get_contents($file);
-                    $size = getimagesize($file);
-
-                    $sql = sprintf("INSERT INTO `images` (image_type, image, image_size, image_name) VALUES ('%s', '%s', '%d', '%s')",
-                        mysqli_real_escape_string($conn, $size['mime']), mysqli_real_escape_string($conn, $imgData), $size[3], mysqli_real_escape_string($conn, $_FILES['userfile']['name'])
-                    );
-                    mysqli_query($conn, $sql);
-
-                    $sql2 = "SELECT image FROM `images` WHERE image_id=0";
-                    $result = mysqli_query($conn, "$sql2");
-                    header("Content-type: image/jpeg");
-                    echo mysqli_result($conn, $result, 0);*/
-
-                    for($x = 1; $x < Input::get('elem1'); $x++) {
-
-                    }
-                }
-                ?>
-
+                    ?>
             </div>
         </div>
     </body>

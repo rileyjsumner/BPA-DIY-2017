@@ -36,7 +36,7 @@ class User {
                 if(substr($check, 0, $len) == $row["password"]) {
                     
                     $sql2 = "UPDATE `users` SET `login`='true' WHERE `username`='$username';";
-                    mysqli_query($conn, $sql2);
+                    $result2 = mysqli_query($conn, $sql2);
                     return true;
                 } 
             }
@@ -44,16 +44,16 @@ class User {
         } else {
             $sql3 = "SELECT * FROM `users` WHERE `email`='$username';";
             $result3 = mysqli_query($conn, $sql);
-            if(mysqli_num_rows($result) > 0) {
-                if($row = mysqli_fetch_assoc($result)) {
-                    $salt = $row["salt"];
-                    $pass = Hash::make($password, $salt);
-                    $len = strlen($row["password"]);
-                    $check = Hash::check($password, $salt);
-                    if(substr($check, 0, $len) == $row["password"]) {
+            if(mysqli_num_rows($result3) > 0) {
+                if($row2 = mysqli_fetch_assoc($result3)) {
+                    $salt2 = $row2["salt"];
+                    $pass2 = Hash::make($password, $salt2);
+                    $len2 = strlen($row2["password"]);
+                    $check2 = Hash::check($password, $salt2);
+                    if(substr($check2, 0, $len2) == $row2["password"]) {
 
-                        $sql2 = "UPDATE `users` SET `login`='true' WHERE `email`='$username';";
-                        mysqli_query($conn, $sql2);
+                        $sql4 = "UPDATE `users` SET `login`='true' WHERE `email`='$username';";
+                        $result4 = mysqli_query($conn, $sql2);
                         return true;
                     } 
                 }
