@@ -55,7 +55,7 @@ session_start();
                         } ?>
                         <script>
                         function follow(a) {
-                            $.ajax({
+                            $ 
                                 type: "POST",
                                 url: '/ajax.php',
                                 data:{action: 'follow', user: a},
@@ -92,7 +92,7 @@ session_start();
                             if($profile == $_SESSION["name"]) { ?>
                                 
                             <?php } else if($foll) { ?>
-                                
+                                <button type='button' name='unfollow' id='unfollow' onclick='unfollow(<?php echo "\"$profile\""; ?>)'>unfollow @<?php echo $profile ?></button>
                             <?php } else { ?>
                                 <button type='button' name='follow' id='follow' onclick='follow(<?php echo "\"$profile\""; ?>)'>Follow @<?php echo $profile ?></button>
                             <?php }

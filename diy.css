@@ -185,3 +185,9 @@ body {
 .project {
     background-color: white;
 }
+.loginResp {
+    background: #F8F8F8;
+}
+.loginResp p {
+    color: black;
+}

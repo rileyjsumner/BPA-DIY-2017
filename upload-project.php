@@ -48,7 +48,11 @@
         <div class="row">
             <div class="col-2">
                 <?php 
+                if(Token::check(Verify::get('token')) && $user->islogin($conn, $userName)) {
                     if($_GET['action'] == "title" || $_GET['action'] == null) { 
+                        if($_GET["action"] == null) {
+                            unset($_SESSION["postID"]);
+                        }
                         $_GET['action'] = "title"; 
                         $sqlTD = "SELECT `title`, `description` FROM `posts` WHERE `postID`=".$_SESSION['postID'].";";
                         $resultTD = mysqli_query($conn, $sqlTD);
@@ -60,7 +64,7 @@
                         }
                         ?>
                         <form class="smart-green" method="POST" role="form" class="title" method="POST" action="?action=materials">
-                            <table>
+                            <table width='500'>
                                 <tr>
                                     <td>
                                         <label for="title">Project Title</label>
@@ -152,15 +156,14 @@
                     </form>
                 <?php } else if($_GET['action'] == "steps") { 
                     $elem1 = Input::get("elem1");
-                    $dbString = "<ul>";
+                    $dbString = "";
                     $y = 4;
-                    for($x = 0; $x < $elem1; $x++) {
-                        $dbString.= "<li><a href='".Input::get("url".$y)."'>".Input::get("materials".$y)."</a></li>";
+                    for($x = 1; $x < $elem1; $x++) {
+                        $dbString.= "+".Input::get("url".$y).",".Input::get("materials".$y);
                         $y+=3;
                     }
-                    $dbString.="</ul>";
                     
-                    $sql3 = "UPDATE `posts` SET `materials`='$dbstring' WHERE `postID` =".$_SESSION['postID'].";";
+                    $sql3 = "UPDATE `posts` SET `materials`='$dbString' WHERE `postID` =".$_SESSION['postID'].";";
                     $result3 = mysqli_query($conn, $sql3);
                     
                     ?>
@@ -187,7 +190,7 @@
                                 var n = $('.text-box').length + 1;
                                 console.log(n);
                                 var box_html = $('<tr>' +
-                                        '<td><p class="text-box"><input type="text" name="steps" value="" id="steps' + n + '" /></td>' + 
+                                        '<td><p class="text-box"><input class="steps" type="text" name="steps' + n + '" value="" id="steps' + n + '" /></td>' + 
                                         '<td><p class="text-box"><a href="#" class="remove-box">Remove</a></p></td></tr>');
                                 box_html.hide();
                                 $('.smart-green .materialstab tr:last').after(box_html);
@@ -208,7 +211,7 @@
                         });
                         $("#btnsbmit4").click( function () { //calculate # of elements, set form data
 
-                            var textboxcount2 = document.getElementsByName("steps").length;
+                            var textboxcount2 = document.getElementsByClassName("steps").length;
                             var box_2 = $('<input type="hidden" name="elem2" value="'+textboxcount2+'">');
                             $('.smart-green p.text-box:last').after(box_2);
 
@@ -217,15 +220,15 @@
                     </form>
                 <?php } else if($_GET['action'] == "socialmedia") { 
                         $elem2 = Input::get("elem2");
-                        $dbString2 = "<ul>";
+                        $dbString2 = "";
                         $y2 = 3;
                         for($x2 = 0; $x2 < $elem2; $x2++) {
-                            $dbString2.= "<li>".Input::get("steps".$y2)."</a></li>";
+                            $dbString2.= "+".Input::get("steps".$y2);
                             $y2+=2;
                         }
-                        $dbString2.="</ul>";
-
-                        $sql4 = "UPDATE `posts` SET `steps`='$dbstring2' WHERE `postID` =".$_SESSION['postID'].";";
+                        echo $dbString2;
+                        $sql4 = "UPDATE `posts` SET `steps`='$dbString2' WHERE `postID` =".$_SESSION['postID'].";";
+                        echo $sql4;
                         $result4 = mysqli_query($conn, $sql4);
                     
                         $getSM = "SELECT * FROM `users` WHERE `userID`=$userID;";
@@ -309,7 +312,62 @@
 
                         echo "<br>File $fileName uploaded<br>";
                     } 
-                    ?>
+                    if($_GET["action"] == "estimates") { ?>
+                        <form class="smart-green" role="form" method="post"> 
+                            <label for="cost">Estimated Project Cost</label>
+                            <input type="number" name="cost" value="">
+                            <label for="time">Estimated Completion Time</label>
+                            <input type="time" name="time" value="">
+                            <button type="submit" name="images" id="btnsbmit9" formaction="?action=images">Previous</button>
+                            <button type="submit" name="tips" id="btnsbmit10" formaction="?action=tips">Next</button>
+                        </form>
+                    <?php }
+                    if($_GET["action"] == "tips") {
+                        $sql5 = "UPDATE `posts` SET `estTime`='".$_POST["time"]."', `estCost`=".$_POST["cost"]." WHERE `postID`=".$_SESSION["postID"].";";
+                        $result5 = mysqli_query($conn, $sql5); ?>
+                <form class="smart-green" role="form" method="post">
+                    <input type="text" name="tips" value=""> 
+                    <input type="text"name="tags"placeholder="enter tags, separated by a ','" value=''>
+                    <button type="submit" name="tips" id="btnsbmit11" formaction="?action=estimates">Previous</button>
+                    <button type="submit" name="preview" id="btnsbmit12" formaction="?action=preview">Next</button>
+                </form>
+                    <?php }
+                    if($_GET["action"]=="preview"){
+                        $sql6="UPDATE `posts` SET `tips`='".Input::get("tips")."', `tags`='".Input::get("tags")."' WHERE `postID`=".$_SESSION["postID"].";";
+                        $result6 = mysqli_query($conn, $sql6);
+                        
+                        $sqlPrev = "SELECT * FROM `posts` WHERE `postID`=".$_SESSION["postID"].";";
+                        $resultPrev = mysqli_query($conn, $sqlPrev);
+                        
+                        if(mysqli_num_rows($resultPrev) > 0) {
+                            while($row = mysqli_fetch_assoc($resultPrev)) {
+                                $title = $row["title"];
+                                $user = $row["user"];
+                                $desc = $row["description"];
+                                $step = $row["steps"];
+                                $material = $row["materials"];
+                                $tips = $row["tips"];
+                                $time = $row["estTime"];
+                                $cost = $row["estCost"];
+                                $tags = $row["tags"];
+                            }
+                        } ?>
+                <h2><a href='?action=title'><?php echo $title; ?></a></h2>
+                <p><a>By <?php echo $user; ?></a></p>
+                <p><a href='?action=title'><?php echo $desc; ?></a></p>
+                <?php 
+                $newMat = explode("+", $material);
+                $matArr = array();
+                foreach($newMat as $mat) {
+                    $newURL = explode(",", $mat);
+                    $matArr[] = $newURL[0];
+                    $matArr[] = $newURL[1];
+                }
+                print_r($matArr);
+                ?>
+                <?php }
+                }
+                ?>
             </div>
         </div>
     </body>

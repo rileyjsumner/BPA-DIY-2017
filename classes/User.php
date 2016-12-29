@@ -16,8 +16,14 @@ class User {
             }
         } 
     }
-    public function checkLogin($token, $username) {
-        
+    public function islogin($conn, $username) {
+        $sql = "SELECT `login` FROM `users` WHERE `username`='$username';";
+        $result = mysqli_query($conn, $sql);
+        if(mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                return $row["login"] == "true" ? true : false;
+            }
+        }
     }
     public function follow($conn, $user, $follow) {
         $sql = "INSERT INTO `follows` (`user`, `follow`) VALUES ('$user', '$follow');";

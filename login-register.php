@@ -53,6 +53,7 @@
                 </form>
             </div>
         </div>
+        <div class='loginResp'>
         <?php
             if(Input::get("register")) {
                 $username = Input::get("username");
@@ -65,9 +66,16 @@
                             $newpass = Hash::make($password, $salt);
                             $sql = "INSERT INTO `users` (`username`, `email` , `password`, `salt`) VALUES ('$username', '$email' ,'$newpass', '$salt');";
                             if(mysqli_query($conn, $sql)) {
-                                echo "<p>login success</p>";
+                                if($user->login($conn, $username, $password)) {
+                                    $_SESSION["id"] = $user->getID($conn, $username);
+                                    $_SESSION["name"] = $username;
+                                    echo "<p>login success</p>";
+                                } else {
+                                    echo "<p>Registration success, login fail</p>";
+                                }
+                                
                             } else {
-                                echo "<p>an error occured</p>";
+                                echo "<p>an error occured in registration</p>";
                             }
                         }
                         else {
@@ -83,8 +91,12 @@
                 if($user->login($conn, $username, $password)) {
                     $_SESSION["id"] = $user->getID($conn, $username);
                     $_SESSION["name"] = $username;
-                } 
+                    echo "<p>login success</p>";
+                } else {
+                    echo "<p>Username or password incorrect</p>";
+                }
             } 
         ?>
+        </div>
     </body>
 </html>
