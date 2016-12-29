@@ -81,17 +81,14 @@ session_start();
                         </div>
                         <div class='comments'>
                             <?php 
-                                $sqlCom = "SELECT * FROM `comments` WHERE `postID`=".$elem["postID"].";";
+                                $sqlCom = "SELECT * FROM `comments` WHERE `postID`=".$elem["postID"]." ORDER BY `timestamp` ASC;";
                                 $resultCom = mysqli_query($conn, $sqlCom);
                                 
                                 $comm = array();
                                 if(mysqli_num_rows($resultCom) > 0) {
                                     while($row3 = mysqli_fetch_assoc($resultCom)) {
-                                        $comm[$elem["postID"]] = array("user" => $row3["user"], "message"=> $row3["message"], "timestamp"=> $row3["timestamp"]);
+                                        echo "<p>".$row3["user"].": ".$row3["message"]." -posted ".$row3["timestamp"]."</p>";
                                     }
-                                }
-                                foreach($comm as $com) {
-                                    echo "<p>".$com["user"].": ".$com["message"]." -posted ".$com["timestamp"]."</p>";
                                 }
                             ?>
                             <form role='form' method='post'>
