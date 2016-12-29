@@ -21,7 +21,8 @@
             </ul>
         </nav>
         <?php
-            
+            $sql = "SELECT * FROM `ideas`;";
+            $result = mysqli_query($conn, $sql);
         ?>
     </body>
 </html>
