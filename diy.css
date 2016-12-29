@@ -186,8 +186,9 @@ body {
     background-color: white;
 }
 .loginResp {
-    background: #F8F8F8;
+    background-color: #F8F8F8;
+    max-width: 150px;
 }
 .loginResp p {
-    color: black;
+    color: black; 
 }
