@@ -10,7 +10,7 @@ if($_POST['action'] == 'follow') {
 } else if($_POST['action'] == 'unfollow') {
     User::unfollow($conn, $_SESSION["name"], $_POST['user']);
 } else if($_POST['action'] == 'delete') {
-    User::deletePost($conn, $postID);
+    User::deletePost($conn, $_POST["postID"]);
 } else{
     echo 'no req';
 }

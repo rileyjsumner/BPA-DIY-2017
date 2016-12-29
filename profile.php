@@ -80,7 +80,7 @@ session_start();
                                 url: '/ajax.php',
                                 data: {action: 'delete', postID: a},
                                 success: function() {
-                                    console.log("called del()");
+                                    console.log("called del("+a+ ")");
                                 }
                             });
                         }
@@ -134,11 +134,12 @@ session_start();
                     foreach(array_reverse($posts) as $elem) { ?>
                         <div class='project'>
                             <h2><?php echo $elem["title"]; ?></h2>
-                            <p><?php echo $elem["description"]; ?></p>
+                            <p><?php echo $elem["description"]; echo $elem["postID"]; ?></p>
                             
                             <a class="expander" href="#">click me</a>
                             <div class='hidden' id='details'>
-                                <?php echo $elem["steps"]; ?>
+                                <?php echo $elem["steps"]; 
+                                 ?>
                             </div>
                             <button type='button' name='delete' id='delete' onclick='del(<?php echo $elem["postID"]; ?>)'>Delete Post</button>
                         </div>
