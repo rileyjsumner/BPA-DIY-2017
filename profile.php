@@ -100,7 +100,37 @@ session_start();
                         ?>
             </div>
             <div class='col-1'>
-                
+             <?php   
+              $sql2 = "SELECT * FROM `posts` WHERE `user` = '$profile';";
+                        $result2 = mysqli_query($conn, $sql2);
+                        if(mysqli_num_rows($result2) > 0) {
+                            while($row2 = mysqli_fetch_assoc($result2)) {
+                                $posts[$row2["timestamp"]] = array("title"=>$row2["title"], 
+                                                                    "user"=>$row2["user"], 
+                                                                    "description"=>$row2["description"], 
+                                                                    "steps"=>$row2["steps"],
+                                                                    "materials"=>$row2["materials"],
+                                                                    "tips"=>$row2["tips"],
+                                                                    "time"=>$row2["estTime"],
+                                                                    "cost"=>$row2["estCost"],
+                                                                    "reviews"=>$row2["ratings"],
+                                                                    "rating"=>$row2["rated"],
+                                                                    "tags"=>$row2["tags"]);
+                                
+                            }
+                        }   
+                        ksort($posts);
+                    foreach(array_reverse($posts) as $elem) { ?>
+                        <div class='project'>
+                            <h2><?php echo $elem["title"]; ?></h2>
+                            <p><?php echo $elem["description"]; ?></p>
+                            
+                            <a class="expander" href="#">click me</a>
+                            <div class='hidden' id='details'>
+                                <?php echo $row2["steps"]; ?>
+                            </div>
+                        </div>
+                    <?php } ?>
             </div>
         </div>
     </body>
