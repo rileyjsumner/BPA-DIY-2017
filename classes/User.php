@@ -24,6 +24,11 @@ class User {
         $result = mysqli_query($conn, $sql);
         return $result ? true : false;
     }
+    public function unfollow($conn, $user, $follow) {
+        $sql = "DELETE FROM `follows` WHERE `user`='$user' AND `follow`='$follow';";
+        $result = mysqli_query($conn, $sql);
+        return $result ? true : false;
+    }
     public function login($conn, $username, $password) {
         $sql = "SELECT * FROM `users` WHERE `username`='$username';";
         $result = mysqli_query($conn, $sql);

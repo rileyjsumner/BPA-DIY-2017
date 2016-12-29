@@ -55,15 +55,25 @@ session_start();
                         } ?>
                         <script>
                         function follow(a) {
-                              $.ajax({
-                                   type: "POST",
-                                   url: '/ajax.php',
-                                   data:{action:'follow', user: a},
-                                   success: function() {
-                                       console.log("called");
-                                   }
-                              });
-                         }
+                            $.ajax({
+                                type: "POST",
+                                url: '/ajax.php',
+                                data:{action: 'follow', user: a},
+                                success: function() {
+                                    console.log("calledF");
+                                }
+                            });
+                        }
+                        function unfollow(a) {
+                            $.ajax({
+                                type: "POST",
+                                url: '/ajax.php',
+                                data:{action: 'unfollow', user: a},
+                                success: function() {
+                                    console.log("calledUF");
+                                }
+                            });
+                        }
                         </script>
                         <?php 
                             $sqlF = "SELECT `follows` FROM `users` WHERE `user`='".$_SESSION['name']."';";

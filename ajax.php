@@ -7,7 +7,8 @@ if (!$conn) {
 }
 if($_POST['action'] == 'follow') {
     User::follow($conn, $_SESSION["name"], $_POST['user']);
-    echo 'data: ', $_SESSION["name"], '<br>', $profile;
+} else if($_POST['action'] == 'unfollow') {
+    User::unfollow($conn, $_SESSION["name"], $_POST['user']);
 } else {
     echo 'no req';
 }
