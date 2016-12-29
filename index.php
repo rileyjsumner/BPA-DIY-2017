@@ -62,7 +62,8 @@ session_start();
                                                                     "cost"=>$row2["estCost"],
                                                                     "reviews"=>$row2["ratings"],
                                                                     "rating"=>$row2["rated"],
-                                                                    "tags"=>$row2["tags"]);
+                                                                    "tags"=>$row2["tags"],
+                                                                    "postID"=>$row2["postID"]);
                                 
                             }
                         }
@@ -75,8 +76,37 @@ session_start();
                             
                             <a class="expander" href="#">click me</a>
                             <div class='hidden' id='details'>
-                                <?php echo $row2["steps"]; ?>
+                                <?php echo $elem["steps"]; ?>
                             </div>
+                        </div>
+                        <div class='comments'>
+                            <?php 
+                                $sqlCom = "SELECT * FROM `comments` WHERE `postID`=".$elem["postID"].";";
+                                $resultCom = mysqli_query($conn, $sqlCom);
+                                
+                                $comm = array();
+                                if(mysqli_num_rows($resultCom) > 0) {
+                                    while($row3 = mysqli_fetch_assoc($resultCom)) {
+                                        $comm[$elem["postID"]] = array("user" => $row3["user"], "message"=> $row3["message"], "timestamp"=> $row3["timestamp"]);
+                                    }
+                                }
+                                foreach($comm as $com) {
+                                    echo "<p>".$com["user"].": ".$com["message"]." -posted ".$com["timestamp"]."</p>";
+                                }
+                            ?>
+                            <form role='form' method='post'>
+                                <input type='text' name ='comment' value=''>
+                                <input type='hidden' name='postID' value='<?php echo $elem["postID"] ?>'>
+                                <input type='submit' value='comment' name='commentSub'>
+                            </form>
+                            <?php 
+                                if($_POST["commentSub"]) {
+                                    $comment = Input::get("comment");
+                                    $post = Input::get("postID");
+                                    $sqlCom2 = "INSERT INTO `comments` (`postID`, `user`, `message`) VALUES ($post, '".$_SESSION["name"]."', '$comment');";
+                                    $resultCom2 = mysqli_query($conn, $sqlCom2);
+                                }
+                            ?>
                         </div>
                     <?php }
                     

@@ -115,7 +115,8 @@ session_start();
                                                                     "cost"=>$row2["estCost"],
                                                                     "reviews"=>$row2["ratings"],
                                                                     "rating"=>$row2["rated"],
-                                                                    "tags"=>$row2["tags"]);
+                                                                    "tags"=>$row2["tags"],
+                                                                    "postID"=>$row2["postID"]);
                                 
                             }
                         }   
