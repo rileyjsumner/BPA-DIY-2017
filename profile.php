@@ -44,18 +44,18 @@ session_start();
                             if($row = mysqli_fetch_assoc($result)) { ?>
                                 <h1><?php echo $row["username"];?></h1>
                                 <ul>
-                                    <li><a href="http://www.facebook.com/<?php echo $row["facebook"]; ?>" target="_blank">Facebook</a></li>
-                                    <li><a href="http://www.twitter.com/<?php echo $row["twitter"];?>" target="_blank">Twitter</a></li>
-                                    <li><a href="http://www.instagram.com/<?php echo $row["instagram"]; ?>" target="_blank">Instagram</a></li>
-                                    <li><a href="http://www.pinterest.com/<?php echo $row["pinterest"]; ?>" target="_blank">Pinterest</a></li>
-                                    <li><a href="http://www.snapchat.com/add/<?php echo $row["snapchat"]; ?>" target="_blank">Snapchat</a></li>
-                                    <li><a href="http://plus.google.com/<?php echo $row["google"]; ?>" target="_blank">Google+</a></li>
+                                    <?php if(($row["facebook"]) !== "") { ?><li><a href="http://www.facebook.com/<?php echo $row["facebook"]; ?>" target="_blank">Facebook</a></li><?php } ?>
+                                    <?php if(($row["twitter"]) !== "") { ?><li><a href="http://www.twitter.com/<?php echo $row["twitter"];?>" target="_blank">Twitter</a></li><?php } ?>
+                                    <?php if(($row["instagram"]) !== "") { ?><li><a href="http://www.instagram.com/<?php echo $row["instagram"]; ?>" target="_blank">Instagram</a></li><?php } ?>
+                                    <?php if(($row["pinterest"]) !== "") { ?><li><a href="http://www.pinterest.com/<?php echo $row["pinterest"]; ?>" target="_blank">Pinterest</a></li><?php } ?>
+                                    <?php if(($row["snapchat"]) !== "") { ?><li><a href="http://www.snapchat.com/add/<?php echo $row["snapchat"]; ?>" target="_blank">Snapchat</a></li><?php } ?>
+                                    <?php if(($row["google"]) !== "") { ?><li><a href="http://plus.google.com/<?php echo $row["google"]; ?>" target="_blank">Google+</a></li><?php } ?>
                                 </ul>
                             <?php }
                         } ?>
                         <script>
                         function follow(a) {
-                            $ 
+                            $.ajax({
                                 type: "POST",
                                 url: '/ajax.php',
                                 data:{action: 'follow', user: a},
@@ -71,6 +71,16 @@ session_start();
                                 data:{action: 'unfollow', user: a},
                                 success: function() {
                                     console.log("calledUF");
+                                }
+                            });
+                        }
+                        function del(a) {
+                            $.ajax({
+                                type: "POST",
+                                url: '/ajax.php',
+                                data: {action: 'delete', postID: a},
+                                success: function() {
+                                    console.log("called del()");
                                 }
                             });
                         }
@@ -128,8 +138,9 @@ session_start();
                             
                             <a class="expander" href="#">click me</a>
                             <div class='hidden' id='details'>
-                                <?php echo $row2["steps"]; ?>
+                                <?php echo $elem["steps"]; ?>
                             </div>
+                            <button type='button' name='delete' id='delete' onclick='del(<?php echo $elem["postID"]; ?>)'>Delete Post</button>
                         </div>
                     <?php } ?>
             </div>

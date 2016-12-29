@@ -35,6 +35,11 @@ class User {
         $result = mysqli_query($conn, $sql);
         return $result ? true : false;
     }
+    public function deletePost($conn, $postID) {
+        $sql = "DELETE FROM `posts` WHERE `postID`=$postID;";
+        $result = mysqli_query($conn, $sql);
+        return $result ? true : false;
+    }
     public function login($conn, $username, $password) {
         $sql = "SELECT * FROM `users` WHERE `username`='$username';";
         $result = mysqli_query($conn, $sql);
