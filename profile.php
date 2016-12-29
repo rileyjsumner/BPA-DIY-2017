@@ -54,7 +54,7 @@ session_start();
                             <?php }
                         } ?>
                         <script>
-                        function myAjax(a) {
+                        function follow(a) {
                               $.ajax({
                                    type: "POST",
                                    url: '/ajax.php',
@@ -65,10 +65,29 @@ session_start();
                               });
                          }
                         </script>
-                        <button type='button' name='follow' id='follow' onclick='myAjax(<?php echo "\"$profile\""; ?>)'>Follow @<?php echo $profile ?></button>
-                        
-                    <?php }
-                ?>
+                        <?php 
+                            $sqlF = "SELECT `follows` FROM `users` WHERE `user`='".$_SESSION['name']."';";
+                            $resultF = mysqli_query($conn, $sqlF);
+                            $followers = mysqli_num_rows($resultF);
+                            if($followers > 0) {
+                                while($rowF = mysqli_fetch_assoc($resultF)) {
+                                    if($profile == $rowF["follows"]) {
+                                        $foll = true;
+                                        break;
+                                    } else {
+                                        $foll = false;
+                                    }
+                                }
+                            }
+                            if($profile == $_SESSION["name"]) { ?>
+                                
+                            <?php } else if($foll) { ?>
+                                
+                            <?php } else { ?>
+                                <button type='button' name='follow' id='follow' onclick='follow(<?php echo "\"$profile\""; ?>)'>Follow @<?php echo $profile ?></button>
+                            <?php }
+                            }
+                        ?>
             </div>
             <div class='col-1'>
                 
