@@ -9,6 +9,7 @@
 ?>
 <html>
     <head>
+        <link rel='stylesheet' type='text/css'href='diy.css'>
         <meta charset="UTF-8">
         <title>Home</title>
     </head>
@@ -23,6 +24,13 @@
         <?php
             $sql = "SELECT * FROM `ideas`;";
             $result = mysqli_query($conn, $sql);
+            if(mysqli_num_rows($result) > 0) {
+                echo '<table>';
+                while($row = mysqli_fetch_assoc($result)) {
+                    echo '<tr><td>'.$row["name"].'</td><td>'.$row["description"].'</td></tr>';
+                }
+                echo '</table>';
+            }
         ?>
     </body>
 </html>
