@@ -142,6 +142,16 @@ nav li a:hover {
     width: 80%;
     float: left; 
 }
+.col-3 {
+    z-index: 0;
+    position: relative;
+    min-height: 1px;
+    float: none;
+    text-align: center;
+    margin: 0px auto;
+    width: 35%;
+    float: left; 
+}
 .row div {
     text-align: left;
     padding: 10px;
@@ -163,8 +173,11 @@ nav li a:hover {
 .row:after {
     clear: both;
 }
-body {
+html {
     background-image: url("Pictures/bark.jpg");
+    background-repeat:no-repeat;
+    background-position: top;
+    background-attachment: fixed;
     background-size: 1000px 1000px;
     margin-top: 0px;
 }

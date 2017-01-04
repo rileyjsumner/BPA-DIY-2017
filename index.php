@@ -28,8 +28,8 @@ session_start();
                 <li><a href="profile.php">Profile</a></li>
             </ul>   
         </nav>
-        <div class='row'>
-            <div class='col-1'>
+        <div class="row">
+            <div class="col-1">
                 <script type='text/javascript'>
                 $(document).ready(function() {
                     $(".expander").click(function() {
@@ -37,53 +37,61 @@ session_start();
                     });
                 });
                 </script>
-                <?php 
-                    $sql = "SELECT `follow` FROM `follows` WHERE `user`='".$_SESSION['name']."';";
-                    $result = mysqli_query($conn, $sql); 
-                    $following = array();
-                    if(mysqli_num_rows($result) > 0) {
-                        while($row = mysqli_fetch_assoc($result)) {
-                            $following[] = $row["follow"];
-                        }
+            </div>
+        </div>
+        <?php 
+            $sql = "SELECT `follow` FROM `follows` WHERE `user`='".$_SESSION['name']."';";
+            $result = mysqli_query($conn, $sql); 
+            $following = array();
+            if(mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    $following[] = $row["follow"];
+                }
+            }
+            $posts = array();
+            foreach($following as $userFollow) {
+                $sql2 = "SELECT * FROM `posts` WHERE `user` = '$userFollow';";
+                $result2 = mysqli_query($conn, $sql2);
+                if(mysqli_num_rows($result2) > 0) {
+                    while($row2 = mysqli_fetch_assoc($result2)) {
+                        $posts[$row2["timestamp"]] = array("title"=>$row2["title"], 
+                                                            "user"=>$row2["user"], 
+                                                            "description"=>$row2["description"], 
+                                                            "steps"=>$row2["steps"],
+                                                            "materials"=>$row2["materials"],
+                                                            "tips"=>$row2["tips"],
+                                                            "time"=>$row2["estTime"],
+                                                            "cost"=>$row2["estCost"],
+                                                            "rating"=>$row2["rated"],
+                                                            "tags"=>$row2["tags"],
+                                                            "postID"=>$row2["postID"]);
+
                     }
-                    $posts = array();
-                    foreach($following as $userFollow) {
-                        $sql2 = "SELECT * FROM `posts` WHERE `user` = '$userFollow';";
-                        $result2 = mysqli_query($conn, $sql2);
-                        if(mysqli_num_rows($result2) > 0) {
-                            while($row2 = mysqli_fetch_assoc($result2)) {
-                                $posts[$row2["timestamp"]] = array("title"=>$row2["title"], 
-                                                                    "user"=>$row2["user"], 
-                                                                    "description"=>$row2["description"], 
-                                                                    "steps"=>$row2["steps"],
-                                                                    "materials"=>$row2["materials"],
-                                                                    "tips"=>$row2["tips"],
-                                                                    "time"=>$row2["estTime"],
-                                                                    "cost"=>$row2["estCost"],
-                                                                    "reviews"=>$row2["ratings"],
-                                                                    "rating"=>$row2["rated"],
-                                                                    "tags"=>$row2["tags"],
-                                                                    "postID"=>$row2["postID"]);
-                                
-                            }
-                        }
-                    }
-                    ksort($posts);
-                    foreach(array_reverse($posts) as $elem) { ?>
+                }
+            }
+            ksort($posts);
+            foreach(array_reverse($posts) as $elem) { ?>
+                <div class="row">
+                    <div class="col-3" style="width: 10%;">
                         <div class='project'>
                             <h2><?php echo $elem["title"]; ?></h2>
                             <p><?php echo $elem["description"]; ?></p>
-                            
-                            <a class="expander" href="#">click me</a>
+                            <p><?php echo $elem["time"]; ?></p>
+                            <p><?php echo $elem["cost"]; ?></p>
+                            <a class="expander" href="#">details</a>
                             <div class='hidden' id='details'>
-                                <?php echo $elem["steps"]; ?>
+                                <p><?php echo $elem["steps"]; ?></p>
+                                <p><?php echo $elem["materials"]; ?></p>
+                                <p><?php echo $elem["tips"]; ?></p>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-1" style='width: 20%; float: left;'>
                         <div class='comments'>
                             <?php 
                                 $sqlCom = "SELECT * FROM `comments` WHERE `postID`=".$elem["postID"]." ORDER BY `timestamp` ASC;";
                                 $resultCom = mysqli_query($conn, $sqlCom);
-                                
+
                                 $comm = array();
                                 if(mysqli_num_rows($resultCom) > 0) {
                                     while($row3 = mysqli_fetch_assoc($resultCom)) {
@@ -105,11 +113,10 @@ session_start();
                                 }
                             ?>
                         </div>
-                    <?php }
-                    
-                ?>
-            </div>
-        </div>
+                    </div>
+                </div>
+            <?php }
+        ?>
     </body>
 </html>
 

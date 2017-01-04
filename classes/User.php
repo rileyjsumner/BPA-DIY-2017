@@ -14,7 +14,35 @@ class User {
             while($row = mysqli_fetch_assoc($result)) {
                 return $row["userID"];
             }
-        } 
+        } else {
+            $sql2 = "SELECT `userID` FROM `users` WHERE `email`='$username';";
+            $result2 = mysqli_query($conn, $sql2);
+            
+            if(mysqli_num_rows($result2) > 0) {
+                while($row2 = mysqli_fetch_assoc($result2)) {
+                    return $row2["userID"];
+                }
+            }
+        }
+    }
+    public function getName($conn, $username) {
+        $sql = "SELECT `username` FROM `users` WHERE `username`='$username';";
+        $result = mysqli_query($conn, $sql);
+        
+        if(mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                return $row["username"];
+            }
+        } else {
+            $sql2 = "SELECT `username` FROM `users` WHERE `email`='$username';";
+            $result2 = mysqli_query($conn, $sql2);
+            
+            if(mysqli_num_rows($result2) > 0) {
+                while($row2 = mysqli_fetch_assoc($result2)) {
+                    return $row2["username"];
+                }
+            }
+        }
     }
     public function islogin($conn, $username) {
         $sql = "SELECT `login` FROM `users` WHERE `username`='$username';";
@@ -59,7 +87,7 @@ class User {
             return false;
         } else {
             $sql3 = "SELECT * FROM `users` WHERE `email`='$username';";
-            $result3 = mysqli_query($conn, $sql);
+            $result3 = mysqli_query($conn, $sql3);
             if(mysqli_num_rows($result3) > 0) {
                 if($row2 = mysqli_fetch_assoc($result3)) {
                     $salt2 = $row2["salt"];
@@ -74,7 +102,6 @@ class User {
                     } 
                 }
             } else {
-                //fail
             }
         }
     }
