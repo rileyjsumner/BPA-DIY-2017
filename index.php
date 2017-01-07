@@ -71,8 +71,8 @@ session_start();
             }
             ksort($posts);
             foreach(array_reverse($posts) as $elem) { ?>
-                <div class="row">
-                    <div class="col-3" style="width: 10%;">
+                <div class="row" style='width: 80%;'>
+                    <div class="col-3" style="width: 50%;">
                         <div class='project'>
                             <h2><?php echo $elem["title"]; ?></h2>
                             <p><?php echo $elem["description"]; ?></p>

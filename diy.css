@@ -146,7 +146,7 @@ nav li a:hover {
     z-index: 0;
     position: relative;
     min-height: 1px;
-    float: none;
+    float: left;
     text-align: center;
     margin: 0px auto;
     width: 35%;
@@ -178,7 +178,7 @@ html {
     background-repeat:no-repeat;
     background-position: top;
     background-attachment: fixed;
-    background-size: 1000px 1000px;
+    background-size: 100%;
     margin-top: 0px;
 }
 #profile {
