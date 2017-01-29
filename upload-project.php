@@ -226,9 +226,7 @@
                             $dbString2.= "+".Input::get("steps".$y2);
                             $y2+=2;
                         }
-                        echo $dbString2;
                         $sql4 = "UPDATE `posts` SET `steps`='$dbString2' WHERE `postID` =".$_SESSION['postID'].";";
-                        echo $sql4;
                         $result4 = mysqli_query($conn, $sql4);
                     
                         $getSM = "SELECT * FROM `users` WHERE `userID`=$userID;";
@@ -304,8 +302,8 @@
                         include 'library/config.php';
                         include 'library/opendb.php';
 
-                        $query = "INSERT INTO upload (name, size, type, content, user ) ".
-                        "VALUES ('$fileName', '$fileSize', '$fileType', '$content', '".$_SESSION['name']."')";
+                        $query = "INSERT INTO upload (name, size, type, content, user, postID ) ".
+                        "VALUES ('$fileName', '$fileSize', '$fileType', '$content', '".$_SESSION['name']."', '".$_SESSION['postID']."');";
 
                         mysqli_query($conn, $query) or die('Error, query failed'); 
                         include 'library/closedb.php';

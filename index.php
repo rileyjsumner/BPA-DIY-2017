@@ -74,6 +74,22 @@ session_start();
                 <div class="row" style='width: 80%;'>
                     <div class="col-3" style="width: 50%;">
                         <div class='project'>
+                                <?php
+                                    include 'library/config.php';
+                                    include 'library/opendb.php';
+
+                                    $query = "SELECT * FROM `upload` WHERE `postID`=".$elem["postID"].";";
+                                    $result = mysqli_query($conn, $query);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {?>
+                                            <img src="uploads/<?php echo $row["name"]; ?>"/>
+                                            <!--<a href="download.php?id=<?php //echo $id; ?>"><?php //= $name; ?></a> -->
+                                            <?php
+                                        }
+                                    } else {
+                                    }
+                                    include 'library/closedb.php';
+                                ?>
                             <h2><?php echo $elem["title"]; ?></h2>
                             <p><?php echo $elem["description"]; ?></p>
                             <p><?php echo $elem["time"]; ?></p>
