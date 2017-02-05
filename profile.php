@@ -26,7 +26,7 @@ session_start();
                 <li><a href="submit-idea.php">Submit an Idea</a></li>
                 <li><a href="login-register.php">Login/Register</a></li>
                 <li class="active"><a href="profile.php">Profile</a></li>
-                <li><a href="View/ideas.php">View/Ideas</a></li>
+                <li><a href="view-ideas.php">View Ideas</a></li>
         </nav>
         <div class="row">
             <div class='col-1' id='profile'>

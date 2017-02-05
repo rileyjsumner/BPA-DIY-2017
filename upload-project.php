@@ -43,6 +43,7 @@
                 <li><a href="submit-idea.php">Submit an Idea</a></li>
                 <li><a href="login-register.php">Login/Register</a></li>
                 <li><a href="profile.php">Profile</a></li>
+                <li><a href="view-ideas.php">View Ideas</a></li>
             </ul>  
         </nav>
         <div class="row">

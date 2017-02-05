@@ -24,7 +24,7 @@
                 <li><a href="submit-idea.php">Submit an Idea</a></li>
                 <li class="active"><a href="login-register.php">Login/Register</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><a href="View/ideas.php">View/Ideas</a></li>
+                <li><a href="view-ideas.php">View Ideas</a></li>
             </ul>   
         </nav>
         <div class="row">
@@ -91,7 +91,7 @@
                 
                 if($user->login($conn, $username, $password)) {
                     $_SESSION["id"] = $user->getID($conn, $username);
-                    $_SESSION["name"] = $username;
+                    $_SESSION["name"] = $user->getName($conn, $username);
                     echo "<p>login success</p>";
                 } else {
                     echo "<p>Username or password incorrect</p>";
