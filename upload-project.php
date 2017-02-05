@@ -68,13 +68,13 @@
                                 <tr>
                                     <td>
                                         <label for="title">Project Title</label>
-                                        <input type="text" name="title" value="<?php if($titleDB !== null) { echo "$titleDB";} ?>">
+                                        <input type="text" name="title" value="<?php if($titleDB !== null) { echo "$titleDB";} else if ($_GET["Title"] !== null) {echo $_GET["Title"];} ?>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <label for="description">Description</label>
-                                        <textarea name="description"><?php if($descDB !== null) { echo "$descDB";} ?></textarea>
+                                        <textarea name="description"><?php if($descDB !== null) { echo "$descDB";} else if ($_GET["Description"] !== null) {echo $_GET["Description"];} ?></textarea>
                                     </td>
                                 </tr>
                             </table>
