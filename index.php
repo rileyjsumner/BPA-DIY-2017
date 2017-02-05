@@ -34,7 +34,7 @@ session_start();
                 <script type='text/javascript'>
                     function expander(x){
                         console.log(x);
-                        $(x).toggleClass("hidden");
+                        $("#"+x).toggleClass("hidden");
                     }
                 </script>
                 <?php 
