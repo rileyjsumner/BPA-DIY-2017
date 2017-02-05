@@ -316,7 +316,7 @@
                             <label for="cost">Estimated Project Cost</label>
                             <input type="number" name="cost" value="">
                             <label for="time">Estimated Completion Time</label>
-                            <input type="time" name="time" value="">
+                            <input type="number" name="time" value="" placeholder="(in minutes)">
                             <button type="submit" name="images" id="btnsbmit9" formaction="?action=images">Previous</button>
                             <button type="submit" name="tips" id="btnsbmit10" formaction="?action=tips">Next</button>
                         </form>
@@ -325,7 +325,7 @@
                         $sql5 = "UPDATE `posts` SET `estTime`='".$_POST["time"]."', `estCost`=".$_POST["cost"]." WHERE `postID`=".$_SESSION["postID"].";";
                         $result5 = mysqli_query($conn, $sql5); ?>
                 <form class="smart-green" role="form" method="post">
-                    <input type="text" name="tips" value=""> 
+                    <input type="text" name="tips" value="" placeholder="Project Tips"> 
                     <input type="text"name="tags"placeholder="enter tags, separated by a ','" value=''>
                     <button type="submit" name="tips" id="btnsbmit11" formaction="?action=estimates">Previous</button>
                     <button type="submit" name="preview" id="btnsbmit12" formaction="?action=preview">Next</button>

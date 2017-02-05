@@ -32,11 +32,10 @@ session_start();
         <div class='row'>
             <div class='col-1'>
                 <script type='text/javascript'>
-                $(document).ready(function() {
-                    $(".expander").click(function() {
-                        $("#details").toggleClass("hidden");
-                    });
-                });
+                    function expander(x){
+                        console.log(x);
+                        $(x).toggleClass("hidden");
+                    }
                 </script>
                 <?php 
                     $sql = "SELECT `follow` FROM `follows` WHERE `user`='".$_SESSION['name']."';";
@@ -70,15 +69,17 @@ session_start();
                         }
                     }
                     ksort($posts);
+                    $x = 0;
+                    
                     foreach(array_reverse($posts) as $elem) { ?>
                         <div class='project'>
                             <h2><?php echo $elem["title"]; ?></h2>
                             <p><?php echo $elem["description"]; ?></p>
                             <p><?php echo "<a href=profile.php?User=".$elem["user"].">".$elem["user"]."</a>"; ?></p>
                             
-                            <a class="expander" href="#">click me</a>
-                            <div class='hidden' id='details'>
-                                <?php echo $elem["steps"]; ?>
+                            <a id="expander<?php echo $x;?>" onclick="expander('details<?php echo $x; ?>')" href="#">click me</a>
+                            <div class='hidden' id='details<?php echo $x; ?>'>
+                                <p><?php echo $elem["steps"]; ?></p>
                             </div>
                         </div>
                         <div class='comments'>
@@ -110,7 +111,9 @@ session_start();
                                 }
                             ?>
                         </div>
-                    <?php }
+                    <?php 
+                    $x++;
+                        }
                     
                 ?>
             </div>
