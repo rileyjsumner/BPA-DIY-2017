@@ -81,9 +81,18 @@ session_start();
                                     $query = "SELECT * FROM `upload` WHERE `postID`=".$elem["postID"].";";
                                     $result = mysqli_query($conn, $query);
                                     if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {?>
-                                            <img src="uploads/<?php echo $row["name"]; ?>"/>
-                                            <!--<a href="download.php?id=<?php //echo $id; ?>"><?php //= $name; ?></a> -->
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            $name = $row["name"];
+                                            $size = $row["size"];
+                                            $type = $row["type"];
+                                            $content = $row["content"];
+                                            
+                                            header("Content-length: $size");
+                                            header("Content-type: $type");
+                                            header("Content-Disposition: attachment; filename=$name");
+                                            echo "img", $content;
+                                            ?>
+                                            
                                             <?php
                                         }
                                     } else {
