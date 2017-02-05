@@ -142,7 +142,9 @@ session_start();
                                 <?php echo $elem["steps"]; 
                                  ?>
                             </div>
+                            <?php if(Token::check(Verify::get('token')) && $profile == $user->getName($conn, $_SESSION["name"])) { ?>
                             <button type='button' name='delete' id='delete' onclick='del(<?php echo $elem["postID"]; ?>)'>Delete Post</button>
+                            <?php } ?>
                         </div>
                     <?php } ?>
             </div>

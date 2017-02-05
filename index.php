@@ -74,6 +74,7 @@ session_start();
                         <div class='project'>
                             <h2><?php echo $elem["title"]; ?></h2>
                             <p><?php echo $elem["description"]; ?></p>
+                            <p><?php echo "<a href=profile.php?User=".$elem["user"].">".$elem["user"]."</a>"; ?></p>
                             
                             <a class="expander" href="#">click me</a>
                             <div class='hidden' id='details'>
