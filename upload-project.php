@@ -49,6 +49,7 @@
         <div class="row">
             <div class="col-2">
                 <?php 
+                date_default_timezone_set('America/New_York');
                 if(Token::check(Verify::get('token')) && $user->islogin($conn, $userName)) {
                     if($_GET['action'] == "title" || $_GET['action'] == null) { 
                         if($_GET["action"] == null) {

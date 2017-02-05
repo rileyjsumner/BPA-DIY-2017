@@ -47,6 +47,7 @@ session_start();
                         }
                     }
                     $posts = array();
+                    
                     foreach($following as $userFollow) {
                         $sql2 = "SELECT * FROM `posts` WHERE `user` = '$userFollow';";
                         $result2 = mysqli_query($conn, $sql2);
@@ -63,14 +64,14 @@ session_start();
                                                                     "reviews"=>$row2["ratings"],
                                                                     "rating"=>$row2["rated"],
                                                                     "tags"=>$row2["tags"],
-                                                                    "postID"=>$row2["postID"]);
+                                                                    "postID"=>$row2["postID"],
+                                                                    "stamp"=>$row2["timestamp"]);
                                 
                             }
                         }
                     }
                     ksort($posts);
                     $x = 0;
-                    
                     foreach(array_reverse($posts) as $elem) { ?>
                         <div class='project'>
                             <h2><?php echo $elem["title"]; ?></h2>
@@ -79,7 +80,17 @@ session_start();
                             
                             <a id="expander<?php echo $x;?>" onclick="expander('details<?php echo $x; ?>')" href="#">click me</a>
                             <div class='hidden' id='details<?php echo $x; ?>'>
-                                <p><?php echo $elem["steps"]; ?></p>
+                                <?php 
+                                    $steps = explode("+", $elem["steps"]);
+                                    echo '<ul>';
+                                    for($y = 1; $y < sizeof($steps); $y++) {
+                                        echo '<li>'.$steps[$y].'</li>';
+                                    }
+                                    echo '</ul>';
+                                ?>
+                                
+                                <p><?php echo date("F j, Y @ g:i a", strtotime($elem["stamp"])); ?></p>
+                                
                             </div>
                         </div>
                         <div class='comments'>
