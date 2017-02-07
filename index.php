@@ -93,6 +93,7 @@ session_start();
                     <div class='project'>
                         <h2><?php echo $elem["title"]; ?></h2>
                         <p><?php echo $elem["description"]; ?></p>
+                        <p>Rating: <?php if($elem["rating"] !== null){ echo $elem["rating"], " stars"; } else { echo "Be the first to rate this project!"; } ?></p>
                         <p><?php echo "<a href=profile.php?User=".$elem["user"].">".$elem["user"]."</a>"; ?></p>
                         <?php if($photoURL !== ""){ ?>
                         <img src="uploads/<?php echo $photoURL; ?>"/>
@@ -104,7 +105,7 @@ session_start();
                                 $steps = explode("+", $elem["steps"]);
                                 $items = explode("+", $elem["materials"]);
                                 echo '<ul>';
-                                for($z = 1; $z < sizeof($steps)-1; $z++) {
+                                for($z = 1; $z < sizeof($items); $z++) {
                                     $contents = explode(",", $items[$z]);
                                     echo "<li><a href='".$contents[0]."'>".$contents[1]."</a></li>";
                                 }
@@ -147,6 +148,16 @@ session_start();
                             <input type='hidden' name='postID' value='<?php echo $elem["postID"] ?>'>
                             <input type='submit' value='comment' name='commentSub'>
                         </form>
+                        <script>
+                            function updateTextInput(val) {
+                              document.getElementById('textInput').value=val; 
+                            }
+                        </script>
+                        <form role="form" method="post" action="index.php">
+                            <input type="range" name="rating" min="1" max="5" id="rating" onchange="updateTextInput(this.value);">
+                            <input type="text" id="textInput" value="" maxlength="4" size="4">
+                            <input type="submit" name="rate" value="Rate This Project">
+                        </form>
                         
                     </div>
                 </div>
@@ -159,6 +170,39 @@ session_start();
                     $post = Input::get("postID");
                     $sqlCom2 = "INSERT INTO `comments` (`postID`, `user`, `message`) VALUES ($post, '".$_SESSION["name"]."', '$comment');";
                     $resultCom2 = mysqli_query($conn, $sqlCom2);
+                    page_redirect("index.php");
+                }
+                if($_POST["rate"]) {
+                    $rating = Input::get("rating");
+                    $sqlGetRate = "SELECT `ratings` FROM `posts` WHERE `postID`=".$elem["postID"].";";
+                    $resultR = mysqli_query($conn, $sqlGetRate);
+                    if(mysqli_num_rows($resultR) > 0){
+                        while($rowR = mysqli_fetch_assoc($resultR)) {
+                            if($rowR["ratings"] == null) {
+                                $ratings = $rowR["ratings"];
+                            }
+                            else {
+                                $ratings = $rowR["ratings"]."-";
+                            }
+                        }
+                    } else {
+                        $ratings = "";
+                    }
+                    $sqlRate = "UPDATE `posts` SET `ratings`='".$ratings.$rating."' WHERE `postID`=".$elem["postID"].";";
+                    $resultRate = mysqli_query($conn, $sqlRate);
+                    
+                    $vals = explode("-", $elem["reviews"]);
+                    $rateVal = 0;
+                    if(strpos($elem["reviews"], "-") == 1) {
+                        for($a = 0; $a <= sizeof($vals); $a++) {
+                        $rateVal += $vals[$a];
+                        }
+                    } else {
+                        $rateVal=$rating;
+                    }
+                    $ovr = $rateVal/sizeof($vals);
+                    $sqlOvr = "UPDATE `posts` SET `rated`=".$ovr." WHERE `postID`=".$elem["postID"].";";
+                    $resultOvr = mysqli_query($conn, $sqlOvr);
                     page_redirect("index.php");
                 }
             ?>
