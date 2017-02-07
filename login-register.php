@@ -67,6 +67,7 @@
                             $newpass = Hash::make($password, $salt);
                             $sql = "INSERT INTO `users` (`username`, `email` , `password`, `salt`) VALUES ('$username', '$email' ,'$newpass', '$salt');";
                             if(mysqli_query($conn, $sql)) {
+                                $user->follow($conn, $username, "staff");
                                 if($user->login($conn, $username, $password)) {
                                     $_SESSION["id"] = $user->getID($conn, $username);
                                     $_SESSION["name"] = $username;

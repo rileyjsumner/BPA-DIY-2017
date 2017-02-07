@@ -127,7 +127,7 @@
                                   console.log(n);
                                   var box_html = $('<tr>' + 
                                           '<td><p class="text-box"><input class="materials" type="text" name="materials'+ n +'" value="" id="materials' + n + '" /></p></td>' + 
-                                          '<td><p class="text-box"><input type="text" name="url' + n + '" value="" id="url' + n + '" /></p></td>' + 
+                                          '<td><p class="text-box"><input type="text" placeholder="include \'www\' " name="url' + n + '" value="" id="url' + n + '" /></p></td>' + 
                                           '<td><p class="text-box"><a href="#" class="remove-box">Remove</a></p></td></tr>');
                                   
                                   box_html.hide();
@@ -278,7 +278,7 @@
                             <tr> 
                                 <td width="246">
                                     <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
-                                    <input name="userfile" type="file" id="userfile"> 
+                                    <input name="fileToUpload" type="file" id="fileToUpload"> 
                                 </td>
                                 <td width="80"><button type="submit" name="upload" id="btnsbmit8" formaction="?action=socialmedia">Previous</button></td>
                                 <td width="80"><button type="submit" name="upload" id="btnsbmit8" formaction="?action=estimates">Next</button></td>
@@ -286,31 +286,49 @@
                         </table>
                     </form>
                 <?php }
-                    if(isset($_POST['upload']) && $_FILES['userfile']['size'] > 0)
+                    if(isset($_POST["upload"]) && $_FILES['fileToUpload']['size'] > 0)
                     {
-                        $fileName = $_FILES['userfile']['name'];
-                        $tmpName  = $_FILES['userfile']['tmp_name'];
-                        $fileSize = $_FILES['userfile']['size'];
-                        $fileType = $_FILES['userfile']['type'];
-
-                        $fp = fopen($tmpName, 'r');
-                        $content = addslashes(fread($fp, filesize($tmpName)));
-                        fclose($fp);
-
-                        if(!get_magic_quotes_gpc())
-                        {
-                            $fileName = addslashes($fileName);
+                        $target_dir = "uploads/";
+                        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                        $uploadOk = 1;
+                        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+                        // Check if image file is a actual image or fake image
+                        if(isset($_POST["upload"])) {
+                            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                            if($check !== false) {
+                                echo "File is an image - " . $check["mime"] . ".";
+                                $uploadOk = 1;
+                            } else {
+                                echo "File is not an image.";
+                                $uploadOk = 0;
+                            }
                         }
-                        include 'library/config.php';
-                        include 'library/opendb.php';
-
-                        $query = "INSERT INTO upload (name, size, type, content, user, postID ) ".
-                        "VALUES ('$fileName', '$fileSize', '$fileType', '$content', '".$_SESSION['name']."', '".$_SESSION['postID']."');";
-
-                        mysqli_query($conn, $query) or die('Error, query failed'); 
-                        include 'library/closedb.php';
-
-                        echo "<br>File $fileName uploaded<br>";
+                        // Check file size
+                        if ($_FILES["fileToUpload"]["size"] > 500000) {
+                            echo "Sorry, your file is too large.";
+                            $uploadOk = 0;
+                        }
+                        // Allow certain file formats
+                        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                        && $imageFileType != "gif" ) {
+                            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                            $uploadOk = 0;
+                        }
+                        // Check if $uploadOk is set to 0 by an error
+                        if ($uploadOk == 0) {
+                            echo "Sorry, your file was not uploaded.";
+                        // if everything is ok, try to upload file
+                        } else {
+                            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                                $photoSQL = "INSERT INTO `upload` (`postID`, `imgLoc`) VALUES (".$_SESSION["postID"]." , '".$_FILES["fileToUpload"]["name"]."');";
+                                echo $photoSQL;
+                                $result = mysqli_query($conn, $photoSQL);
+                                echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+                            } else {
+                                echo "Sorry, there was an error uploading your file.";
+                            }
+                        }
+                    
                     } 
                     if($_GET["action"] == "estimates") { ?>
                         <form class="smart-green" role="form" method="post"> 
