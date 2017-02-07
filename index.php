@@ -59,19 +59,19 @@ session_start();
                 $result2 = mysqli_query($conn, $sql2);
                 if(mysqli_num_rows($result2) > 0) {
                     while($row2 = mysqli_fetch_assoc($result2)) {
-                        $posts[$row2["timestamp"]] = array("title"=>$row2["title"], 
-                                                            "user"=>$row2["user"], 
-                                                            "description"=>$row2["description"], 
-                                                            "steps"=>$row2["steps"],
-                                                            "materials"=>$row2["materials"],
-                                                            "tips"=>$row2["tips"],
+                        $posts[$row2["timestamp"]] = array("title"=>$row2["title"], //
+                                                            "user"=>$row2["user"], //
+                                                            "description"=>$row2["description"], //
+                                                            "steps"=>$row2["steps"],//
+                                                            "materials"=>$row2["materials"],//
+                                                            "tips"=>$row2["tips"],//
                                                             "time"=>$row2["estTime"],
                                                             "cost"=>$row2["estCost"],
-                                                            "reviews"=>$row2["ratings"],
-                                                            "rating"=>$row2["rated"],
-                                                            "tags"=>$row2["tags"],
-                                                            "postID"=>$row2["postID"],
-                                                            "stamp"=>$row2["timestamp"]);
+                                                            "reviews"=>$row2["ratings"],//
+                                                            "rating"=>$row2["rated"],//
+                                                            "tags"=>$row2["tags"],//
+                                                            "postID"=>$row2["postID"],//
+                                                            "stamp"=>$row2["timestamp"]);//
 
                     }
                 }
@@ -98,6 +98,8 @@ session_start();
                         <?php if($photoURL !== ""){ ?>
                         <img src="uploads/<?php echo $photoURL; ?>"/>
                         <?php } ?>
+                        <p>Estimated Time: <?php echo $elem["time"], " minutes"; ?></p>
+                        <p>Estimated Cost: <?php echo "$", elem["cost"]; ?></p>
                         <a id="expander<?php echo $x;?>" onclick="expander('details<?php echo $x; ?>')" href="javascript:void(0)">click me</a>
                         <div class='hidden' id='details<?php echo $x; ?>'>
                             <p>Materials List:</p>
