@@ -99,7 +99,7 @@ session_start();
                         <img src="uploads/<?php echo $photoURL; ?>"/>
                         <?php } ?>
                         <p>Estimated Time: <?php echo $elem["time"], " minutes"; ?></p>
-                        <p>Estimated Cost: <?php echo "$", elem["cost"]; ?></p>
+                        <p>Estimated Cost: <?php echo "$", $elem["cost"]; ?></p>
                         <a id="expander<?php echo $x;?>" onclick="expander('details<?php echo $x; ?>')" href="javascript:void(0)">click me</a>
                         <div class='hidden' id='details<?php echo $x; ?>'>
                             <p>Materials List:</p>
