@@ -223,3 +223,29 @@ html {
     max-width: 100%;
     max-height: 100%;
 }
+.project h2 {
+    font-family: 'Lobster', cursive;
+    font-size: 36px;
+}
+.project p {
+    font-family: 'Indie Flower', cursive;
+    font-size: 20px;
+}
+.project a {
+    font-family: 'Indie Flower', cursive;
+    font-size: 20px;
+}
+.project a:link {
+    color: black;
+    text-decoration: none;
+}
+.project a:hover {
+    color: #89AF4C;
+}
+.project a:visited {
+    color: inherit;
+}
+.project li {
+    font-family: 'Indie Flower', cursive;
+    font-size: 20px;
+}

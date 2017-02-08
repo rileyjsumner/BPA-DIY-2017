@@ -11,6 +11,7 @@ session_start();
 <html>
     <head>
         <link rel="stylesheet" href="diy.css" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Arimo|Bahiana|Indie+Flower|Lobster" rel="stylesheet">
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <meta charset="UTF-8">
         <title>Home</title>
@@ -100,7 +101,7 @@ session_start();
                         <?php } ?>
                         <p>Estimated Time: <?php echo $elem["time"], " minutes"; ?></p>
                         <p>Estimated Cost: <?php echo "$", $elem["cost"]; ?></p>
-                        <a id="expander<?php echo $x;?>" onclick="expander('details<?php echo $x; ?>')" href="javascript:void(0)">click me</a>
+                        <a id="expander<?php echo $x;?>" onclick="expander('details<?php echo $x; ?>')" href="javascript:void(0)">see more details...</a>
                         <div class='hidden' id='details<?php echo $x; ?>'>
                             <p>Materials List:</p>
                             <?php 
@@ -109,7 +110,7 @@ session_start();
                                 echo '<ul>';
                                 for($z = 1; $z < sizeof($items); $z++) {
                                     $contents = explode(",", $items[$z]);
-                                    echo "<li><a href='".$contents[0]."'>".$contents[1]."</a></li>";
+                                    echo "<li><a href='".$contents[0]."' target='_blank'>".$contents[1]."</a></li>";
                                 }
                                 echo '</ul>';
                             ?>

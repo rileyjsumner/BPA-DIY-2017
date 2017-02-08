@@ -31,7 +31,30 @@ session_start();
         <div class="row">
             <div class='col-1' id='profile'>
                 <?php
+                function page_redirect($location)
+                {
+                  echo '<META HTTP-EQUIV="Refresh" Content="0; URL='.$location.'">';
+                  exit; 
+                }
                     if(Token::check(Verify::get('token'))) { 
+                        ?> 
+                <form action="#" method="post">
+                    <input type="text" name="search" id="search" placeholder="Search for a user" value="">
+                    <input type="submit" name="searchUser" value="Search">
+                </form>    
+                        <?php
+                        if($_POST["searchUser"]) {
+                            $sqlSearch = "SELECT `username` FROM `users` WHERE `username` = '".$_POST["search"]."';";
+                            $resultSearch = mysqli_query($conn, $sqlSearch);
+                            if(mysqli_num_rows($resultSearch) > 0) {
+                                while($rowSearch = mysqli_fetch_assoc($resultSearch)) {
+                                    $goto = $rowSearch["username"];
+                                    page_redirect("?User=".$goto);
+                                }
+                            } else {
+                                echo "Your search did not return any results";
+                            }
+                        }
                         
                         if(!(isset($_GET["User"]))) {
                             $profile = $_SESSION["name"];
@@ -87,16 +110,14 @@ session_start();
                         }
                         </script>
                         <?php 
-                            $sqlF = "SELECT `follows` FROM `users` WHERE `user`='".$_SESSION['name']."';";
+                            $sqlF = "SELECT `follow` FROM `follows` WHERE `user`='".$_SESSION['name']."';";
                             $resultF = mysqli_query($conn, $sqlF);
                             $followers = mysqli_num_rows($resultF);
+                            $foll = false;
                             if($followers > 0) {
                                 while($rowF = mysqli_fetch_assoc($resultF)) {
-                                    if($profile == $rowF["follows"]) {
+                                    if($profile == $rowF["follow"]) {
                                         $foll = true;
-                                        break;
-                                    } else {
-                                        $foll = false;
                                     }
                                 }
                             }
