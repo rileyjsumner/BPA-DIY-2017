@@ -11,7 +11,7 @@ session_start();
 <html>
     <head>
         <link rel="stylesheet" href="diy.css" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Arimo|Bahiana|Indie+Flower|Lobster" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Arimo|Bahiana|Barrio|Indie+Flower|Lobster" rel="stylesheet">
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <meta charset="UTF-8">
         <title>Home</title>
@@ -57,11 +57,12 @@ session_start();
                 echo "<div class='col-3' style='background-color: white; border-radius: 9px; padding: 4px; width: 75%;'><div class='sadness'><h2>You are not following anybody - visit your <a href='profile.php'>profile</a> and search for your friends!</h2></div></div>";
             }
             $posts = array();
-
+            $posted=false;
             foreach($following as $userFollow) {
                 $sql2 = "SELECT * FROM `posts` WHERE `user` = '$userFollow';";
                 $result2 = mysqli_query($conn, $sql2);
                 if(mysqli_num_rows($result2) > 0) {
+                    $posted=true;
                     while($row2 = mysqli_fetch_assoc($result2)) {
                         $posts[$row2["timestamp"]] = array("title"=>$row2["title"], //
                                                             "user"=>$row2["user"], //
@@ -78,7 +79,14 @@ session_start();
                                                             "stamp"=>$row2["timestamp"]);//
 
                     }
+                } else if($posted) {
+                    $posted = true;
+                } else {
+                    $posted = false;
                 }
+            }
+            if(!$posted) {
+                echo "<div class='col-3' style='background-color: white; border-radius: 9px; padding: 4px; width: 75%;'><div class='sadness'><h2>None of your friends have posted anything - visit your <a href='profile.php'>profile</a> and search for more friends!</h2></div></div>";
             }
             ksort($posts);
             $x = 0;
@@ -108,8 +116,8 @@ session_start();
                         <div class='hidden' id='details<?php echo $x; ?>'>
                             <p>Materials List:</p>
                             <?php 
-                                $steps = explode("+", $elem["steps"]);
-                                $items = explode("+", $elem["materials"]);
+                                $steps = explode("~", $elem["steps"]);
+                                $items = explode("~", $elem["materials"]);
                                 echo '<ul>';
                                 for($z = 1; $z < sizeof($items); $z++) {
                                     $contents = explode(",", $items[$z]);
@@ -212,7 +220,7 @@ session_start();
                     page_redirect("index.php");
                 }
         } else {
-                echo "<div class='col-3' style='background-color: white; border-radius: 9px; padding: 4px; width: 75%;'><div class='sadness'><h2>You need to <a href='login.php'>login</a></h2></div></div>";
+                echo "<div class='col-3' style='background-color: white; border-radius: 9px; padding: 4px; width: 75%;'><div class='sadness'><h2>You need to <a href='login-register.php'>login</a></h2></div></div>";
             }
             ?>
     </body>

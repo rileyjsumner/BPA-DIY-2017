@@ -31,10 +31,11 @@
         <meta charset="UTF-8">
         <title>Home</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Arimo|Bahiana|Barrio|Indie+Flower|Lobster" rel="stylesheet">
     </head>
     <body>
-         <div class="header">
-        <img src="Pictures/header.png" width="100%" alt=""/>
+        <div class="header">
+            <img src="Pictures/header.png" width="100%" alt=""/>
         </div>
         <nav class="nav">
             <ul>
@@ -54,7 +55,7 @@
                     if($_GET['action'] == "title" || $_GET['action'] == null) { 
                         if($_GET["action"] == null) {
                             unset($_SESSION["postID"]);
-                        }
+                        } 
                         $_GET['action'] = "title"; 
                         $sqlTD = "SELECT `title`, `description` FROM `posts` WHERE `postID`=".$_SESSION['postID'].";";
                         $resultTD = mysqli_query($conn, $sqlTD);
@@ -85,9 +86,8 @@
                 <?php } else if($_GET['action'] == "materials") { 
                     $title = Input::get("title");
                     $description = Input::get('description');
-
-                    $sql1 = "INSERT INTO `posts` (`title`, `description`, `user`) VALUES ('$title', '$description', '$userName');";
-                    $result = mysqli_query($conn, $sql1);
+                        $sql1 = "INSERT INTO `posts` (`title`, `description`, `user`) VALUES ('$title', '$description', '$userName');";
+                        $result = mysqli_query($conn, $sql1);
                     
                     $sql2 = "SELECT `postID` FROM `posts` WHERE `title`='$title' AND `description`='$description' AND `user`='$userName';";
                     $result2 = mysqli_query($conn, $sql2);
@@ -161,7 +161,7 @@
                     $dbString = "";
                     $y = 4;
                     for($x = 1; $x < $elem1; $x++) {
-                        $dbString.= "+".Input::get("url".$y).",".Input::get("materials".$y);
+                        $dbString.= "~".Input::get("url".$y).",".Input::get("materials".$y);
                         $y+=3;
                     }
                     
@@ -225,7 +225,7 @@
                         $dbString2 = "";
                         $y2 = 3;
                         for($x2 = 0; $x2 < $elem2; $x2++) {
-                            $dbString2.= "+".Input::get("steps".$y2);
+                            $dbString2.= "~".Input::get("steps".$y2);
                             $y2+=2;
                         }
                         $sql4 = "UPDATE `posts` SET `steps`='$dbString2' WHERE `postID` =".$_SESSION['postID'].";";
@@ -321,72 +321,142 @@
                         } else {
                             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                                 $photoSQL = "INSERT INTO `upload` (`postID`, `imgLoc`) VALUES (".$_SESSION["postID"]." , '".$_FILES["fileToUpload"]["name"]."');";
-                                echo $photoSQL;
                                 $result = mysqli_query($conn, $photoSQL);
-                                echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
                             } else {
                                 echo "Sorry, there was an error uploading your file.";
                             }
                         }
                     
                     } 
-                    if($_GET["action"] == "estimates") { ?>
+                    if($_GET["action"] == "estimates") { 
+                        $sqlTP = "SELECT `estCost`, `estTime` FROM `posts` WHERE `postID`=".$_SESSION['postID'].";";
+                        $resultTD = mysqli_query($conn, $sqlTD);
+                        if(mysqli_num_rows($resultTD) > 0) {
+                            while($rowTD = mysqli_fetch_assoc($resultTD)) {
+                                $costDB = $rowTD["estCost"];
+                                $timeDB = $rowTD["estTime"];
+                            }
+                        }
+                        ?>
+                
                         <form class="smart-green" role="form" method="post"> 
                             <label for="cost">Estimated Project Cost</label>
-                            <input type="number" name="cost" value="">
+                            <input type="number" name="cost" value="<?php echo $costDB ?>">
                             <label for="time">Estimated Completion Time</label>
-                            <input type="number" name="time" value="" placeholder="(in minutes)">
+                            <input type="number" name="time" value="<?php echo $timeDB ?>" placeholder="(in minutes)">
                             <button type="submit" name="images" id="btnsbmit9" formaction="?action=images">Previous</button>
                             <button type="submit" name="tips" id="btnsbmit10" formaction="?action=tips">Next</button>
                         </form>
                     <?php }
                     if($_GET["action"] == "tips") {
                         $sql5 = "UPDATE `posts` SET `estTime`='".$_POST["time"]."', `estCost`=".$_POST["cost"]." WHERE `postID`=".$_SESSION["postID"].";";
-                        $result5 = mysqli_query($conn, $sql5); ?>
+                        $result5 = mysqli_query($conn, $sql5); 
+                        
+                        $sqlTP = "SELECT `tips`, `tags` FROM `posts` WHERE `postID`=".$_SESSION['postID'].";";
+                        $resultTD = mysqli_query($conn, $sqlTD);
+                        if(mysqli_num_rows($resultTD) > 0) {
+                            while($rowTD = mysqli_fetch_assoc($resultTD)) {
+                                $tipsDB = $rowTD["tips"];
+                                $tagsDB = $rowTD["tags"];
+                            }
+                        }
+                        ?>
                 <form class="smart-green" role="form" method="post">
-                    <input type="text" name="tips" value="" placeholder="Project Tips"> 
-                    <input type="text"name="tags"placeholder="enter tags, separated by a ','" value=''>
+                    <input type="text" name="tips" value="<?php echo $tipsDB ?>" placeholder="Project Tips"> 
+                    <input type="text"name="tags" placeholder="enter tags, separated by a ','" value='<?php echo $tipsDB ?>'>
                     <button type="submit" name="tips" id="btnsbmit11" formaction="?action=estimates">Previous</button>
                     <button type="submit" name="preview" id="btnsbmit12" formaction="?action=preview">Next</button>
                 </form>
-                    <?php }
-                    if($_GET["action"]=="preview"){
-                        $sql6="UPDATE `posts` SET `tips`='".Input::get("tips")."', `tags`='".Input::get("tags")."' WHERE `postID`=".$_SESSION["postID"].";";
-                        $result6 = mysqli_query($conn, $sql6);
-                        
-                        $sqlPrev = "SELECT * FROM `posts` WHERE `postID`=".$_SESSION["postID"].";";
-                        $resultPrev = mysqli_query($conn, $sqlPrev);
-                        
-                        if(mysqli_num_rows($resultPrev) > 0) {
-                            while($row = mysqli_fetch_assoc($resultPrev)) {
-                                $title = $row["title"];
-                                $user = $row["user"];
-                                $desc = $row["description"];
-                                $step = $row["steps"];
-                                $material = $row["materials"];
-                                $tips = $row["tips"];
-                                $time = $row["estTime"];
-                                $cost = $row["estCost"];
-                                $tags = $row["tags"];
-                            }
-                        } ?>
-                <h2><a href='?action=title'><?php echo $title; ?></a></h2>
-                <p><a>By <?php echo $user; ?></a></p>
-                <p><a href='?action=title'><?php echo $desc; ?></a></p>
-                <?php 
-                $newMat = explode("+", $material);
-                $matArr = array();
-                foreach($newMat as $mat) {
-                    $newURL = explode(",", $mat);
-                    $matArr[] = $newURL[0];
-                    $matArr[] = $newURL[1];
-                }
-                print_r($matArr);
-                ?>
-                <?php }
-                }
-                ?>
             </div>
+            
+        <?php }
+        if($_GET["action"]=="preview"){
+            $sql6="UPDATE `posts` SET `tips`='".Input::get("tips")."', `tags`='".Input::get("tags")."' WHERE `postID`=".$_SESSION["postID"].";";
+            $result6 = mysqli_query($conn, $sql6);
+
+            $sqlPrev = "SELECT * FROM `posts` WHERE `postID`=".$_SESSION["postID"].";";
+            $resultPrev = mysqli_query($conn, $sqlPrev);
+
+            if(mysqli_num_rows($resultPrev) > 0) {
+                while($row2 = mysqli_fetch_assoc($resultPrev)) {
+                    $posts[$row2["timestamp"]] = array("title"=>$row2["title"], //
+                                                "user"=>$row2["user"], //
+                                                "description"=>$row2["description"], //
+                                                "steps"=>$row2["steps"],//
+                                                "materials"=>$row2["materials"],//
+                                                "tips"=>$row2["tips"],//
+                                                "time"=>$row2["estTime"],
+                                                "cost"=>$row2["estCost"],
+                                                "reviews"=>$row2["ratings"],//
+                                                "rating"=>$row2["rated"],//
+                                                "tags"=>$row2["tags"],//
+                                                "postID"=>$row2["postID"],//
+                                                "stamp"=>$row2["timestamp"]);//
+
+                    }
+                ksort($posts);
+            foreach(array_reverse($posts) as $elem) { 
+                $photoSQL = "SELECT * FROM `upload` WHERE `postID`=".$elem["postID"].";";
+                $resultPhoto = mysqli_query($conn, $photoSQL);
+                $photoURL = "";
+                if(mysqli_num_rows($resultPhoto) > 0) {
+                    while($row3 = mysqli_fetch_assoc($resultPhoto)) {
+                        $photoURL = $row3["imgLoc"];
+                    }
+                }
+             ?>
+            <script type='text/javascript'>
+                function expander(x){
+                    var tempScrollTop = $(window).scrollTop();
+                    console.log(tempScrollTop);
+                    console.log(x);
+                    $(window).scrollTop(tempScrollTop);
+                    $("#"+x).toggleClass("hidden");
+                }
+            </script>
+            <div class="col-3">
+                <div class='project'>
+                    <h2><a href="?action=title"><?php echo $elem["title"]; ?></a></h2>
+                    <p><a href="?action=title"><?php echo $elem["description"]; ?></a></p>
+                    <p>Rating: <?php if($elem["rating"] !== null){ echo $elem["rating"], " stars"; } else { echo "This project has not yet been rated"; } ?></p>
+                    <p><?php echo "<a href=profile.php?User=".$elem["user"].">".$elem["user"]."</a>"; ?></p>
+                    <?php if($photoURL !== ""){ ?>
+                    <a href="?action=images"><img src="uploads/<?php echo $photoURL; ?>"/></a>
+                    <?php } ?>
+                    <p><a href="?action=estimates">Estimated Time: <?php echo $elem["time"], " minutes"; ?></a></p>
+                    <p><a href="?action=estimates">Estimated Cost: <?php echo "$", $elem["cost"]; ?></a></p>
+                    <a id="expander<?php echo $x;?>" onclick="expander('details<?php echo $x; ?>')" href="javascript:void(0)">see more details...</a>
+                    <div class='hidden' id='details<?php echo $x; ?>'>
+                        <p><a href="?action=materials">Materials List:</a></p>
+                        <?php 
+                            $steps = explode("~", $elem["steps"]);
+                            $items = explode("~", $elem["materials"]);
+                            echo '<ul>';
+                            for($z = 1; $z < sizeof($items); $z++) {
+                                $contents = explode(",", $items[$z]);
+                                echo "<li><a href='".$contents[0]."' target='_blank'>".$contents[1]."</a></li>";
+                            }
+                            echo '</ul>';
+                        ?>
+                        <p><a href="?action=steps">Procedure:</a></p>
+                        <?php 
+
+                            echo '<ol>';
+                            for($y = 1; $y < sizeof($steps); $y++) {
+                                echo '<li>'.$steps[$y].'</li>';
+                            }
+                            echo '</ol>';
+                        ?>
+                        <p><a href="?action=tips">Tips: <?php echo $elem["tips"]; ?></a></p>
+
+                        <p><?php echo date("F j, Y @ g:i a", strtotime($elem["stamp"])); ?></p>
+
+                    </div>
+                </div>
+            </div>
+            <?php } }
+                } 
+            } ?>
         </div>
     </body>
 </html>

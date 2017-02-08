@@ -12,7 +12,7 @@ session_start();
     <head>
         <link rel="stylesheet" href="diy.css" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Arimo|Bahiana|Indie+Flower|Lobster" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Arimo|Bahiana|Barrio|Indie+Flower|Lobster" rel="stylesheet">
         <meta charset="UTF-8">
         <title>Home</title>
     </head>
@@ -201,8 +201,8 @@ session_start();
                             <div class='hidden' id='details<?php echo $x; ?>'>
                                 <p>Materials List:</p>
                                 <?php 
-                                    $steps = explode("+", $elem["steps"]);
-                                    $items = explode("+", $elem["materials"]);
+                                    $steps = explode("~", $elem["steps"]);
+                                    $items = explode("~", $elem["materials"]);
                                     echo '<ul>';
                                     for($z = 1; $z < sizeof($items); $z++) {
                                         $contents = explode(",", $items[$z]);

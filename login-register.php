@@ -27,6 +27,11 @@
                 <li><a href="view-ideas.php">View Ideas</a></li>
             </ul>   
         </nav>
+        <?php 
+        if(Token::check(Verify::get('token')) && $user->islogin($conn, $_SESSION["name"])) { 
+            echo "<div class='col-3' style='background-color: white; border-radius: 9px; padding: 4px; width: 75%;'><div class='sadness'><h2>You are already logged in</h2></div></div>";
+        } else {
+        ?>
         <div class="row">
             <div class="col-1">
                 <form class="smart-green" action="" method="POST">
@@ -56,9 +61,7 @@
         </div>
         <div class='loginResp'>
         <?php
-        if(Token::check(Verify::get('token')) && $user->islogin($conn, $_SESSION["name"])) { 
-            echo "<p>You are already logged in</p>";
-        } else {
+        
             if(Input::get("register")) {
                 $username = Input::get("username");
                 $password = Input::get("password");
