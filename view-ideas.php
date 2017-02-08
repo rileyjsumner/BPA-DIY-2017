@@ -28,7 +28,7 @@
             </ul>
         </nav>
         <div class="row">
-            <div class="col-2">
+            <div class="col-2"> 
             <?php
                 $sql = "SELECT * FROM `ideas`;";
                 $result = mysqli_query($conn, $sql);
