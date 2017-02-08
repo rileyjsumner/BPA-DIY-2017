@@ -249,3 +249,57 @@ html {
     font-family: 'Indie Flower', cursive;
     font-size: 20px;
 }
+.comments p {
+    font-family: 'Indie Flower', cursive;
+    font-size: 20px;
+}
+.comments a {
+    font-family: 'Indie Flower', cursive;
+    font-size: 20px;
+}
+.comments a:link {
+    color: black;
+    text-decoration: none;
+}
+.comments a:hover {
+    color: #89AF4C;
+}
+.comments a:visited {
+    color: inherit;
+}
+.comments li {
+    font-family: 'Indie Flower', cursive;
+    font-size: 20px;
+}
+.comments ul {
+    list-style-type: none;
+}
+.ideas table {
+    border-style: solid;
+    border-width: 4px;
+    border-color: #80A24A;
+    background-color: #949494;
+    width: 75%;
+    border-radius: 9px;
+}
+.ideas td {
+    color: white;
+    font-family: 'Indie Flower', cursive;
+    font-size: 20px;
+}
+#upload {
+    width: 10%;
+}
+.sadness h2 {
+    font-family: 'Indie Flower', cursive;
+    font-size: 40px;
+}
+.sadness a:link {
+    color: black;
+}
+.sadness a:hover {
+    color: #89AF4C;
+}
+.sadness a:visited {
+    color: inherit;
+}

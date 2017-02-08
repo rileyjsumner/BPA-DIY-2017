@@ -12,6 +12,7 @@ session_start();
     <head>
         <link rel="stylesheet" href="diy.css" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Arimo|Bahiana|Indie+Flower|Lobster" rel="stylesheet">
         <meta charset="UTF-8">
         <title>Home</title>
     </head>
@@ -29,7 +30,8 @@ session_start();
                 <li><a href="view-ideas.php">View Ideas</a></li>
         </nav>
         <div class="row">
-            <div class='col-1' id='profile'>
+            <div class='col-1' >
+                <div class="project">
                 <?php
                 function page_redirect($location)
                 {
@@ -41,7 +43,16 @@ session_start();
                 <form action="#" method="post">
                     <input type="text" name="search" id="search" placeholder="Search for a user" value="">
                     <input type="submit" name="searchUser" value="Search">
-                </form>    
+                </form>   
+                <script type='text/javascript'>
+                    function expander(x){
+                        var tempScrollTop = $(window).scrollTop();
+                        console.log(tempScrollTop);
+                        console.log(x);
+                        $(window).scrollTop(tempScrollTop);
+                        $("#"+x).toggleClass("hidden");
+                    }
+                </script>
                         <?php
                         if($_POST["searchUser"]) {
                             $sqlSearch = "SELECT `username` FROM `users` WHERE `username` = '".$_POST["search"]."';";
@@ -66,7 +77,7 @@ session_start();
                         $result = mysqli_query($conn, $sql);
                         if(mysqli_num_rows($result) > 0) {
                             if($row = mysqli_fetch_assoc($result)) { ?>
-                                <h1><?php echo $row["username"];?></h1>
+                                <h2><?php echo $row["username"];?></h2>
                                 <ul>
                                     <?php if(($row["facebook"]) !== "") { ?><li><a href="http://www.facebook.com/<?php echo $row["facebook"]; ?>" target="_blank">Facebook</a></li><?php } ?>
                                     <?php if(($row["twitter"]) !== "") { ?><li><a href="http://www.twitter.com/<?php echo $row["twitter"];?>" target="_blank">Twitter</a></li><?php } ?>
@@ -108,6 +119,16 @@ session_start();
                                 }
                             });
                         }
+                        function logout(a) {
+                            $.ajax({
+                                type: "POST",
+                                url: '/ajax.php',
+                                data: {action: 'logout', user: a},
+                                success: function() {
+                                    console.log("called logout("+a+ ")");
+                                }
+                            });
+                        }
                         </script>
                         <?php 
                             $sqlF = "SELECT `follow` FROM `follows` WHERE `user`='".$_SESSION['name']."';";
@@ -122,7 +143,7 @@ session_start();
                                 }
                             }
                             if($profile == $_SESSION["name"]) { ?>
-                                
+                                <button type="button" name="logout" id="logout" onclick='logout(<?php echo "\"$profile\""; ?>)'>logout</button>
                             <?php } else if($foll) { ?>
                                 <button type='button' name='unfollow' id='unfollow' onclick='unfollow(<?php echo "\"$profile\""; ?>)'>unfollow @<?php echo $profile ?></button>
                             <?php } else { ?>
@@ -130,8 +151,9 @@ session_start();
                             <?php }
                             }
                         ?>
+                </div>
             </div>
-            <div class='col-1'>
+            <div class='col-3'>
              <?php   
               $sql2 = "SELECT * FROM `posts` WHERE `user` = '$profile';";
                         $result2 = mysqli_query($conn, $sql2);
@@ -148,20 +170,59 @@ session_start();
                                                                     "reviews"=>$row2["ratings"],
                                                                     "rating"=>$row2["rated"],
                                                                     "tags"=>$row2["tags"],
-                                                                    "postID"=>$row2["postID"]);
+                                                                    "postID"=>$row2["postID"],
+                                                                    "stamp"=>$row2["timestamp"]);
                                 
                             }
                         }   
                         ksort($posts);
-                    foreach(array_reverse($posts) as $elem) { ?>
+                    foreach(array_reverse($posts) as $elem) { 
+                        $photoSQL = "SELECT * FROM `upload` WHERE `postID`=" . $elem["postID"] . ";";
+                        $resultPhoto = mysqli_query($conn, $photoSQL);
+                        $photoURL = "";
+                        if (mysqli_num_rows($resultPhoto) > 0) {
+                            while ($row3 = mysqli_fetch_assoc($resultPhoto)) {
+                                $photoURL = $row3["imgLoc"];
+                            }
+                        }
+
+                    ?>
                         <div class='project'>
                             <h2><?php echo $elem["title"]; ?></h2>
-                            <p><?php echo $elem["description"]; echo $elem["postID"]; ?></p>
-                            
-                            <a class="expander" href="#">click me</a>
-                            <div class='hidden' id='details'>
-                                <?php echo $elem["steps"]; 
-                                 ?>
+                            <p><?php echo $elem["description"]; ?></p>
+                            <p>Rating: <?php if($elem["rating"] !== null){ echo $elem["rating"], " stars"; } else { echo "This project has not yet been rated"; } ?></p>
+                            <p><?php echo "<a href=profile.php?User=".$elem["user"].">".$elem["user"]."</a>"; ?></p>
+                            <?php if($photoURL !== ""){ ?>
+                            <img src="uploads/<?php echo $photoURL; ?>"/>
+                            <?php } ?>
+                            <p>Estimated Time: <?php echo $elem["time"], " minutes"; ?></p>
+                            <p>Estimated Cost: <?php echo "$", $elem["cost"]; ?></p>
+                            <a id="expander<?php echo $x;?>" onclick="expander('details<?php echo $x; ?>')" href="javascript:void(0)">see more details...</a>
+                            <div class='hidden' id='details<?php echo $x; ?>'>
+                                <p>Materials List:</p>
+                                <?php 
+                                    $steps = explode("+", $elem["steps"]);
+                                    $items = explode("+", $elem["materials"]);
+                                    echo '<ul>';
+                                    for($z = 1; $z < sizeof($items); $z++) {
+                                        $contents = explode(",", $items[$z]);
+                                        echo "<li><a href='".$contents[0]."' target='_blank'>".$contents[1]."</a></li>";
+                                    }
+                                    echo '</ul>';
+                                ?>
+                                <p>Procedure:</p>
+                                <?php 
+
+                                    echo '<ol>';
+                                    for($y = 1; $y < sizeof($steps); $y++) {
+                                        echo '<li>'.$steps[$y].'</li>';
+                                    }
+                                    echo '</ol>';
+                                ?>
+                                <p>Tips: <?php echo $elem["tips"]; ?></p>
+                                
+                                <p><?php echo date("F j, Y @ g:i a", strtotime($elem["stamp"])); ?></p>
+
                             </div>
                             <?php if(Token::check(Verify::get('token')) && $profile == $user->getName($conn, $_SESSION["name"])) { ?>
                             <button type='button' name='delete' id='delete' onclick='del(<?php echo $elem["postID"]; ?>)'>Delete Post</button>

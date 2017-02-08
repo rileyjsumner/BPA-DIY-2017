@@ -40,6 +40,7 @@ session_start();
             }
         </script>
         <?php 
+        if(Token::check(Verify::get('token')) && $user->islogin($conn, $_SESSION["name"])) {
             function page_redirect($location)
             {
               echo '<META HTTP-EQUIV="Refresh" Content="0; URL='.$location.'">';
@@ -52,6 +53,8 @@ session_start();
                 while($row = mysqli_fetch_assoc($result)) {
                     $following[] = $row["follow"];
                 }
+            } else {
+                echo "<div class='col-3' style='background-color: white; border-radius: 9px; padding: 4px; width: 75%;'><div class='sadness'><h2>You are not following anybody - visit your <a href='profile.php'>profile</a> and search for your friends!</h2></div></div>";
             }
             $posts = array();
 
@@ -141,7 +144,7 @@ session_start();
                                 echo '<ul>';
                                 while($row3 = mysqli_fetch_assoc($resultCom)) {
                                     $timeStr = date("F j, Y @ g:i a", strtotime($row3["timestamp"]));
-                                    echo "<li>".$row3["user"].": ".$row3["message"]." -posted ".$timeStr."</li>";
+                                    echo "<li><a href='profile.php?User=".$row3["user"]."'>".$row3["user"]."</a>: ".$row3["message"]." -posted ".$timeStr."</li>";
                                 }
                                 echo '</ul>';
                             }
@@ -208,6 +211,9 @@ session_start();
                     $resultOvr = mysqli_query($conn, $sqlOvr);
                     page_redirect("index.php");
                 }
+        } else {
+                echo "<div class='col-3' style='background-color: white; border-radius: 9px; padding: 4px; width: 75%;'><div class='sadness'><h2>You need to <a href='login.php'>login</a></h2></div></div>";
+            }
             ?>
     </body>
 </html>

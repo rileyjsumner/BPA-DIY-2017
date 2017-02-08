@@ -29,19 +29,21 @@
         </nav>
         <div class="row">
             <div class="col-2"> 
+                <div class="ideas">
             <?php
                 $sql = "SELECT * FROM `ideas`;";
                 $result = mysqli_query($conn, $sql);
                 if(mysqli_num_rows($result) > 0) {
                     echo '<table>';
                     while($row = mysqli_fetch_assoc($result)) {
-                        echo '<tr><td>'.$row["name"].'</td><td>'.$row["description"].'</td><td><form action="upload-project.php?Title='.$row["name"].'&Description='.$row["description"].'" method="GET"><input type="submit" name="submit" value="upload project"/></form></td></tr>';
+                        echo '<tr><td>'.$row["name"].'</td><td>'.$row["description"].'</td><td id="upload"><form action="upload-project.php?Title='.$row["name"].'&Description='.$row["description"].'" method="GET"><input type="submit" name="submit" value="upload project"/></form></td></tr>';
                 
 
                    }
                     echo '</table>';
                 }
             ?>
+                </div>
             </div>
         </div>
     </body>

@@ -12,7 +12,7 @@
     }
     $user = new User();
     
-    if(Token::check(Verify::get('token'))) {
+    if(Token::check(Verify::get('token')) && $user->islogin($conn, $_SESSION["name"])) {
         
         $userID = $_SESSION["id"];
         $sql = "SELECT `username` FROM `users` WHERE `userID`=$userID;";

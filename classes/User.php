@@ -53,6 +53,16 @@ class User {
             }
         }
     }
+    public function page_redirect($location)
+    {
+      echo '<META HTTP-EQUIV="Refresh" Content="0; URL='.$location.'">';
+      exit; 
+    }
+    public function logout($conn, $username) {
+        $sql = "UPDATE `users` SET `login`='false' WHERE `username`='$username';";
+        $result = mysqli_query($conn, $sql);
+        session_unset();
+    }
     public function follow($conn, $user, $follow) {
         $sql = "INSERT INTO `follows` (`user`, `follow`) VALUES ('$user', '$follow');";
         $result = mysqli_query($conn, $sql);

@@ -56,6 +56,9 @@
         </div>
         <div class='loginResp'>
         <?php
+        if(Token::check(Verify::get('token')) && $user->islogin($conn, $_SESSION["name"])) { 
+            echo "<p>You are already logged in</p>";
+        } else {
             if(Input::get("register")) {
                 $username = Input::get("username");
                 $password = Input::get("password");
@@ -100,6 +103,7 @@
                     echo "<p>Username or password incorrect</p>";
                 }
             } 
+        }
         ?>
         </div>
     </body>
