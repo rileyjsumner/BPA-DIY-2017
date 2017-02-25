@@ -13,6 +13,7 @@ session_start();
         <link rel="stylesheet" href="diy.css" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Arimo|Bahiana|Barrio|Indie+Flower|Lobster" rel="stylesheet">
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script> 
         <meta charset="UTF-8">
         <title>Home</title>
     </head>
@@ -30,6 +31,64 @@ session_start();
                 <li><a href="view-ideas.php">View Ideas</a></li>
             </ul>   
         </nav>
+        <?php if(!$user->islogin($conn, $_SESSION["name"])) { ?>
+        <script type='text/javascript'>
+            $(document).ready(function() {	
+
+                var id = '#dialog';
+
+                //Get the screen height and width
+                var maskHeight = $(document).height();
+                var maskWidth = $(window).width();
+
+                //Set heigth and width to mask to fill up the whole screen
+                $('#mask').css({'width':maskWidth,'height':maskHeight});
+
+                //transition effect
+                $('#mask').fadeIn(500);	
+                $('#mask').fadeTo("slow",0.9);	
+
+                //Get the window height and width
+                var winH = $(window).height();
+                var winW = $(window).width();
+
+                //Set the popup window to center
+                $(id).css('top',  winH/2-$(id).height()/2);
+                $(id).css('left', winW/2-$(id).width()/2);
+
+                //transition effect
+                $(id).fadeIn(2000); 	
+
+                //if close button is clicked
+                $('.window .close').click(function (e) {
+                    //Cancel the link behavior
+                    e.preventDefault();
+
+                    $('#mask').hide();
+                    $('.window').hide();
+                });
+
+                //if mask is clicked
+                $('#mask').click(function () {
+                    $(this).hide();
+                    $('.window').hide();
+                });
+
+            });
+        </script>
+        <div id="boxes">
+            <div id="dialog" class="window">
+                <!-- Content -->
+                <h2>Welcome to Dogwood DIY!</h2>
+                <p>With Dogwood DIY, you can create and share your own DIY projects, as well as view others projects. </p>
+                <p>To the right is the navigation menu. Start by logging in. Then you can search for your friends to follow them!
+                    &nbsp;Check out the <a href='view-ideas.php'>view ideas</a> page to see ideas for projects you could make! 
+                    &nbsp;Head to the <a href='upload-project.php'>upload project</a> page to create a project!</p>
+                <div id="popupfoot"> <a href="#" class="close agree">Let's Get Started!</a></div>
+            </div>
+            <div id="mask"></div>
+        </div>
+        <?php } ?>
         <script type='text/javascript'>
             function expander(x){
                 var tempScrollTop = $(window).scrollTop();
@@ -59,7 +118,7 @@ session_start();
             $posts = array();
             $posted=false;
             foreach($following as $userFollow) {
-                $sql2 = "SELECT * FROM `posts` WHERE `user` = '$userFollow';";
+                $sql2 = "SELECT * FROM `posts` WHERE `user` = '$userFollow' AND `status`='confirmed';";
                 $result2 = mysqli_query($conn, $sql2);
                 if(mysqli_num_rows($result2) > 0) {
                     $posted=true;
@@ -100,6 +159,8 @@ session_start();
                     }
                 }
                 ?>
+        
+
             <div class="row">
                 <div class="col-3">
                     <div class='project'>

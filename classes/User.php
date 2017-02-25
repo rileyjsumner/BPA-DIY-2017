@@ -55,8 +55,19 @@ class User {
     }
     public function page_redirect($location)
     {
-      echo '<META HTTP-EQUIV="Refresh" Content="0; URL='.$location.'">';
-      exit; 
+        header('Location: '.$location);
+        echo "<script>console.log('aw freck'".$location.");</script>";
+        
+        //echo '<meta http-equiv="Location" content="'.$location.'>';
+        exit; 
+    }
+    public function accept($conn, $id) {
+        $sql = "UPDATE `posts` SET `status`='confirmed' WHERE `postID`=$id;";
+        $result = mysqli_query($conn, $sql);
+    }
+    public function decline($conn, $id) {
+        $sql = "UPDATE `posts` SET `status`='declined' WHERE `postID`=$id;";
+        $result = mysqli_query($conn, $sql);
     }
     public function logout($conn, $username) {
         $sql = "UPDATE `users` SET `login`='false' WHERE `username`='$username';";
@@ -92,6 +103,7 @@ class User {
                     $sql2 = "UPDATE `users` SET `login`='true' WHERE `username`='$username';";
                     $result2 = mysqli_query($conn, $sql2);
                     return true;
+                    page_redirect("/index.php");
                 } 
             }
             return false;
@@ -131,7 +143,6 @@ class User {
         }
         $len2--;
         $sql.="'$val[$len2]');";
-        echo $sql;
         return mysqli_query($conn, $sql)? true: false;
     }
     public function select($conn, $table, $col = array()) {

@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-1">
                 <form class="smart-green" action="" method="POST">
-                    
+                    <h2>Login</h2>
                     <p>Username</p>
                     <input type="text" name="user" placeholder="Username" value="">
                     <p>Password</p>
@@ -46,6 +46,7 @@
             </div>
             <div class="col-1">
                 <form class="smart-green" action="" method="POST">
+                    <h2>Register</h2>
                     <p>Username</p>
                     <input type="text" name="username" placeholder="Username" value="">
                     <p>Email</p>
@@ -72,14 +73,20 @@
                             $salt = Hash::salt(64);
                             $newpass = Hash::make($password, $salt);
                             $sql = "INSERT INTO `users` (`username`, `email` , `password`, `salt`) VALUES ('$username', '$email' ,'$newpass', '$salt');";
-                            echo $sql;
                             if(mysqli_query($conn, $sql)) {
                                 $user->follow($conn, $username, "staff");
                                 $user->follow($conn, $username, $username);
+                                sleep(1.5);
                                 if($user->login($conn, $username, $password)) {
                                     $_SESSION["id"] = $user->getID($conn, $username);
                                     $_SESSION["name"] = $username;
                                     echo "<p>login success</p>";
+                                    ?>
+                                    <script type='text/javascript'>
+                                        window.location.replace('index.php');
+                                        console.log('fwd');
+                                    </script>
+                                    <?php
                                 } else {
                                     echo "<p>Registration success, login fail</p>";
                                 }
@@ -102,6 +109,12 @@
                     $_SESSION["id"] = $user->getID($conn, $username);
                     $_SESSION["name"] = $user->getName($conn, $username);
                     echo "<p>login success</p>";
+                    ?>
+                    <script type='text/javascript'>
+                        window.location.replace('index.php');
+                        console.log('fwd');
+                    </script>
+                    <?php
                 } else {
                     echo "<p>Username or password incorrect</p>";
                 }
